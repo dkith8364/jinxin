@@ -1,0 +1,93 @@
+{include file="head" /}
+
+{include file="menu" /}
+
+
+
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+
+        <div class="row state-overview">
+            <div class="container">
+                <form id="formid" action="{:url('user/userlist')}" method="post">
+                    <div class="row">
+                        <div class="col-lg-6 mar-10">
+                            <div class="input-group">
+                                <span class="input-group-addon">用户编号</span>
+                                <input type="text" value="" id="uid" onkeyup="checkUpUsername(this)" placeholder="请输入用户ID" name="uid" class="form-control">
+                            </div>
+                        </div>
+
+                    <div class="col-lg-8 mar-10">
+                        <div class="input-group">
+                            <span class="input-group-addon">用户账号</span>
+                            <input type="text" id="username" disabled="disabled" value=""  class="form-control">
+                        </div>
+                    </div>
+                        <div class="col-lg-8 mar-10">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1">充值金额</span>
+                                <input type="text"  value=""  class="form-control" name="bpprice" placeholder="请输入充值金额"/>
+                            </div>
+                        </div>
+
+
+                    <div class="col-lg-6 mar-10">
+                        <input type="submit" id="edituserup" disabled="disabled" onclick="return editcon(this.form)" class="btn btn-success" value="提交">
+                    </div>
+            </div>
+            </form>
+        </div>
+
+
+
+        <!-- page end-->
+    </section>
+</section>
+<!--main content end-->
+</section>
+
+
+{include file="foot" /}
+<script>
+    function editcon(form){
+
+        var uid = form.uid.value;
+        var bpprice = form.bpprice.value;
+
+
+        if(!uid){layer.msg('请输入用户ID'); return false;}
+        if(!bpprice){layer.msg('请输入充值金额'); return false;}
+
+        var formurl = "{:Url('user/addprice')}";
+        var data = $('#formid').serialize();
+        var locurl = "{:Url('user/userprice')}";
+
+        WPpost(formurl,data,locurl);
+
+        return false;
+    }
+
+    function checkUpUsername(t){
+        var oid = $(t).val();
+        var formurl = "{:Url('user/checkupname')}";
+        var data = 'oid='+oid;
+        if(oid.length == 0 || oid == 0){
+            $('#username').val('用户不存在，请检查用户ID');
+        }else{
+            $.post(formurl,data,function(data) {
+                console.log(data);
+                if (data.type == 1) {
+                    $("#edituserup").attr('disabled',false)
+                    $('#username').val(data.data);
+                }else{
+                    $("#edituserup").attr('disabled','disabled')
+                    $('#username').val('用户不存在，请检查用户ID');
+                }
+            })
+        }
+
+    }
+</script>
+

@@ -1,0 +1,308 @@
+{include file="head" /}
+<body ng-app="starter" ng-controller="AppCtrl" class="grade-a platform-browser platform-win32 platform-ready">
+<ion-nav-bar class="bar-stable headerbar nav-bar-container hide" nav-bar-transition="ios" nav-bar-direction="none"
+             nav-swipe="">
+    <div class="nav-bar-block" nav-bar="cached">
+        <ion-header-bar class="bar-stable headerbar bar bar-header" align-title="center">
+            <div class="title title-center header-item"></div>
+        </ion-header-bar>
+    </div>
+    <div class="nav-bar-block" nav-bar="active">
+        <ion-header-bar class="bar-stable headerbar bar bar-header" align-title="center">
+            <div class="title title-center header-item"></div>
+        </ion-header-bar>
+    </div>
+</ion-nav-bar>
+<ion-nav-view class="view-container" nav-view-transition="ios" nav-view-direction="none" nav-swipe="">
+    <ion-view hide-nav-bar="true" class="signin-view pane" state="signin" nav-view="active"
+              style="opacity: 1; transform: translate3d(0%, 0px, 0px);">
+        <div class="signin">
+            <div class="signin-header">
+                <div class="system-logo" ng-show="show_system_logo">
+                </div>
+                <div class="system-name ng-binding ng-hide" ng-show="show_system_name" style="">
+
+                </div>
+            </div>
+            <form method="post" id="formid">
+                <div class="signin-content">
+
+                    <div class="list">
+                        <label class="item item-input">
+                            <i class="input-icon ion-android-person"></i>
+                            <input type="text" placeholder="<?php echo _lang("请输入账号")?>" id="user" name="username"
+                            required="" class="ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
+                            style="">
+                        </label>
+                        <label class="item item-input">
+                            <i class="input-icon ion-locked"></i>
+                            <input type="password" placeholder="<?php echo _lang("请输入密码")?>" id="pswd" name="upwd"
+                            required="" ng-keydown="go_signin()" class="ng-pristine ng-untouched ng-empty ng-invalid
+                            ng-invalid-required" style="">
+                        </label>
+                    </div>
+                    <p>
+                        <span style="display: none;"><?php echo _lang("忘记密码")?>？</span>
+                        <span class="ion-android-warning ng-hide" ng-show="show_sign_in_mistake"
+                              style="">&nbsp;<?php echo _lang("账号或者密码错误，请重新输入!")?></span>
+                    </p>
+                    <div class="signin-action">
+                        <button class="newbutton sign_button" onclick="return checkform(this.form);">
+                            <?php echo _lang("登入")?>
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+
+
+            <!--            <div data-v-c38e8882="" class="c">-->
+            <!--                <div data-v-c38e8882="" class="col-xs-4" style="text-align: center; padding: 5px;">-->
+            <!--                    <div data-v-c38e8882="">-->
+            <!--                        <input data-v-c38e8882="" id="KeepPWD" value="1" type="checkbox" name="jizhu" >-->
+            <!--                        <span data-v-c38e8882="" class="">记住密码</span>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+
+
+            <div class="signin-footer" ng-show="if_signup">
+                <a href="{:url('login/register')}"><?php echo _lang("立即开户")?></a>
+                <a href="https://chatlink-new.meiqia.cn/widget/standalone.html?eid=d260846f752eba46657a88ad6d33fe6d"> <?php echo _lang("在线客服")?></a>
+            </div>
+            <div class="not_open_yet">
+                此语种尚未开发，请耐心等待！<br/>
+                This language is not yet developed, please be patient！
+            </div>
+            <div class="select_lang_icon"><span>
+                            <?php echo _lang("切换语言")?></span></div>
+            <div class="flag_lump">
+                <div>
+                    <span class="flag_lump_close"></span>
+
+                    <div>
+                        <a href="javascript:setLanCookie('zh_choose','s');" class="zh_click"
+                           id="zh_click_s"><span>简体</span></a>
+                    </div>
+                    <div>
+                        <a href="javascript:setLanCookie('zh_choose','e');" class="zh_click" id="zh_click_e"><span>English</span></a>
+                    </div>
+                    <div>
+                        <a class="other_click" id="zh_click_pt"><span>Portugal</span></a>
+                    </div>
+                    <div>
+                        <a class="other_click" id="zh_click_t"><span>繁體</span></a>
+                    </div>
+                    <div>
+                        <a class="other_click" id="zh_click_d"><span>Deutsch</span></a>
+                    </div>
+                    <div>
+                        <a class="other_click" id="zh_click_f"><span>français</span></a>
+                    </div>
+                    <div>
+                        <a class="other_click" id="zh_click_j" style="border:1px solid #eee"><span>日本</span></a>
+                    </div>
+                    <div>
+                        <a class="other_click" id="zh_click_v"><span>Tiếng Việt</span></a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--<div class="signin-footer" ng-show="if_signup">
+                <a href="{:url('login/respass')}">——&nbsp;&nbsp;忘记密码&nbsp;&nbsp;——</a>-->
+        </div>
+        </div>
+        <div style="display:none">
+            <script src="https://s19.cnzz.com/z_stat.php?id=1273088631&web_id=1273088631"
+                    language="JavaScript"></script>
+        </div>
+        <div class="spinner-view hide">
+            <div class="spinner">
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+            </div>
+            <div class="message ng-binding" ng-class="{ 'fadein' : message }"></div>
+        </div>
+    </ion-view>
+</ion-nav-view>
+
+
+<div class="backdrop"></div>
+<div class="ionic_toast">
+    <div class="toast_section" ng-class="ionicToast.toastClass" ng-style="ionicToast.toastStyle" ng-click="hideToast()"
+         style="display: none; opacity: 0;"><span class="ionic_toast_close"><i
+            class="ion-android-close toast_close_icon"></i></span><span ng-bind-html="ionicToast.toastMessage"
+                                                                        class="ng-binding"></span></div>
+</div>
+</body></html>
+
+<script>
+    function checkform(form) {
+        var username = form.username.value;
+        var upwd = form.upwd.value;
+        if (!username) {
+            layer.msg('<?php echo _lang("请输入用户名！")?>');
+            return false;
+        }
+
+        if (!upwd) {
+            layer.msg('<?php echo _lang("请输入密码！")?>');
+            return false;
+        }
+
+        var data = $('#formid').serialize();
+        var formurl = "{:Url('login/login')}";
+        var locurl = "{:Url('/index/index/index/token/'.$token)}";
+
+        WPpost(formurl, data, locurl);
+        return false;
+    }
+</script>
+<script>
+    window.onload = function () {
+        var oUser = document.getElementById('user');
+        //页面初始化时，如果帐号密码cookie存在则填充
+        if (getCookie('user')) {
+            oUser.value = getCookie('user');
+        }
+    };
+
+    //设置cookie
+    function setCookie(name, value, day) {
+        var date = new Date();
+        date.setDate(date.getDate() + day);
+        document.cookie = name + '=' + value + ';expires=' + date;
+    };
+
+    //获取cookie
+    function getCookie(name) {
+        var reg = RegExp(name + '=([^;]+)');
+        var arr = document.cookie.match(reg);
+        if (arr) {
+            return arr[1];
+        } else {
+            return '';
+        }
+    };
+
+    $(function(){
+        //更改国旗图标
+        if(getCookie('zh_choose')=='s'){
+            $('.select_lang_icon').attr('class','select_lang_icon cn_flag')
+        }
+        if(getCookie('zh_choose')=='e'){
+            $('.select_lang_icon').attr('class','select_lang_icon en_flag')
+        }
+    })
+
+    //删除cookie
+    function delCookie(name) {
+        setCookie(name, null, -1);
+    };
+
+    //获取语言cookie标识
+    function getLanCookie(Name) {
+        var search = Name + "="
+        if (document.cookie.length > 0) {
+            offset = document.cookie.indexOf(search);
+            if (offset != -1) {
+                offset += search.length;
+                end = document.cookie.indexOf(";", offset);
+                if (end == -1) end = document.cookie.length;
+                return unescape(document.cookie.substring(offset, end));
+            } else {
+                return '';
+            }
+        }
+    }
+
+    //设置语言cookie标识
+    //设置语言按钮颜色 及 默认语言为繁体 e
+    (function setLanBtnColor() {
+        const other_btn = document.getElementsByClassName('other_click')
+        for (var x = 0; x < other_btn.length; x++) {
+            other_btn[x].addEventListener('click', function () {
+                document.getElementsByClassName('not_open_yet')[0].style.display = 'block'
+                setTimeout(function () {
+                    document.getElementsByClassName('not_open_yet')[0].style.display = 'none'
+                }, 1500)
+            })
+        }
+        document.getElementsByClassName('select_lang_icon')[0].addEventListener('click', function () {
+            document.getElementsByClassName('flag_lump')[0].style.display = 'block'
+        })
+        document.getElementsByClassName('flag_lump_close')[0].addEventListener('click', function () {
+            document.getElementsByClassName('flag_lump')[0].style.display = 'none'
+        })
+        if (getLanCookie('zh_choose').length <= 0) {
+            const LargeExpDate = new Date();
+            LargeExpDate.setTime(LargeExpDate.getTime() + (1000 * 3600 * 24));
+            document.cookie = 'zh_choose' + "=" + escape('e') + ("; expires=" + LargeExpDate.toGMTString()) + '; path=/';
+        }
+        if (getLanCookie('zh_choose') === 's') {
+            document.getElementById('zh_click_s').style.color = '#2a91fc'
+            // document.getElementById('zh_click_t').style.color = 'black'
+            document.getElementById('zh_click_e').style.color = 'black'
+            // document.getElementById('zh_click_pt').style.color = 'black'
+        }
+        if (getLanCookie('zh_choose') === 't') {
+            document.getElementById('zh_click_s').style.color = 'black'
+            // document.getElementById('zh_click_t').style.color = '#2a91fc'
+            document.getElementById('zh_click_e').style.color = 'black'
+            // document.getElementById('zh_click_pt').style.color = 'black'
+        }
+        if (getLanCookie('zh_choose') === 'e') {
+            document.getElementById('zh_click_s').style.color = 'black'
+            // document.getElementById('zh_click_t').style.color = 'black'
+            document.getElementById('zh_click_e').style.color = '#2a91fc'
+            // document.getElementById('zh_click_pt').style.color = 'black'
+        }
+        if (getLanCookie('zh_choose') === 'pt') {
+            document.getElementById('zh_click_s').style.color = 'black'
+            // document.getElementById('zh_click_t').style.color = 'black'
+            document.getElementById('zh_click_e').style.color = 'black'
+            // document.getElementById('zh_click_pt').style.color = '#2a91fc'
+        }
+    })()
+
+    function setLanCookie(name, value) {
+        const LargeExpDate = new Date();
+        LargeExpDate.setTime(LargeExpDate.getTime() + (1000 * 3600 * 24));
+        console.log(getLanCookie('zh_choose'))
+        if (getLanCookie('zh_choose') === 's') {
+            document.getElementById('zh_click_s').style.color = '#2a91fc'
+            // document.getElementById('zh_click_t').style.color = 'black'
+            document.getElementById('zh_click_e').style.color = 'black'
+            // document.getElementById('zh_click_pt').style.color = 'black'
+        }
+        if (getLanCookie('zh_choose') === 't') {
+            document.getElementById('zh_click_s').style.color = 'black'
+            // document.getElementById('zh_click_t').style.color = '#2a91fc'
+            document.getElementById('zh_click_e').style.color = 'black'
+            // document.getElementById('zh_click_pt').style.color = 'black'
+        }
+        if (getLanCookie('zh_choose') === 'e') {
+            document.getElementById('zh_click_s').style.color = 'black'
+            // document.getElementById('zh_click_t').style.color = 'black'
+            document.getElementById('zh_click_e').style.color = '#2a91fc'
+            // document.getElementById('zh_click_pt').style.color = 'black'
+        }
+        if (getLanCookie('zh_choose') === 'pt') {
+            document.getElementById('zh_click_s').style.color = 'black'
+            // document.getElementById('zh_click_t').style.color = 'black'
+            document.getElementById('zh_click_e').style.color = 'black'
+            // document.getElementById('zh_click_pt').style.color = '#2a91fc'
+        }
+        const cur_lan = getLanCookie('zh_choose')
+        // if(cur_lan == 's'||cur_lan == 't'||cur_lan == 'e'){
+        if (getLanCookie('zh_choose').length <= 0) {
+            document.cookie = name + "=" + escape('t') + ("; expires=" + LargeExpDate.toGMTString()) + '; path=/';
+        } else {
+            document.cookie = name + "=" + escape(value) + ("; expires=" + LargeExpDate.toGMTString()) + '; path=/';
+        }
+        setTimeout(() => {
+            window.location.reload()
+        }, 1000)
+    }
+</script>

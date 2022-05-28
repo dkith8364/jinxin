@@ -1,0 +1,141 @@
+{include file="head" /}
+<script src="__HOME__/js/lk/user.js?v=4"></script>
+
+<body ng-app="starter" ng-controller="AppCtrl" class="grade-a platform-browser platform-win32 platform-ready">
+<ion-nav-bar class="bar-stable headerbar nav-bar-container hide" nav-bar-transition="ios" nav-bar-direction="none" nav-swipe="">
+<div class="nav-bar-block" nav-bar="cached"><ion-header-bar class="bar-stable headerbar bar bar-header" align-title="center"><div class="title title-center header-item"></div></ion-header-bar></div><div class="nav-bar-block" nav-bar="active"><ion-header-bar class="bar-stable headerbar bar bar-header" align-title="center"><div class="title title-center header-item"></div></ion-header-bar></div></ion-nav-bar>
+<ion-nav-view class="view-container" nav-view-transition="ios" nav-view-direction="none" nav-swipe=""><ion-view hide-nav-bar="true" class="signin-view pane" state="signin" nav-view="active" style="opacity: 1; transform: translate3d(0%, 0px, 0px);">
+
+
+</div>
+
+    <ion-nav-bar class="bar-stable headerbar nav-bar-container" nav-bar-transition="ios" nav-bar-direction="swap" nav-swipe="">
+
+    	<div class="nav-bar-block" nav-bar="active">
+    		<ion-header-bar class="bar-stable headerbar bar bar-header" align-title="center">
+    			<div class="title title-center header-item" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);"><?php echo _lang("修改登录密码")?></div>
+    		</ion-header-bar>
+    	</div>
+    </ion-nav-bar>
+
+<div class="modal-backdrop modal-bank"><div class="modal-wrapper" ng-transclude="">
+    <ion-modal-view class="order-modal bank-info-modal modal ">
+    <ion-header-bar class="order-modal-header bar bar-header">
+        <h1 class="title" style="left: 54px; right: 54px;"><?php echo _lang("修改登录密码")?></h1>
+        <div class="close">
+           <a style="color:#fff"  href="{:url('user/index')}"> <i class="icon ion-ios-arrow-left"></i></a>
+<!--           <a style="color:#fff;font-size: .12rem;position: relative;top:-.07rem"  href="{:url('user/index')}">返回</a>-->
+        </div>
+    </ion-header-bar>
+
+
+          <style>
+
+            .bank-info-modal ul li{ background:#333;border-bottom: 1px solid #666;}
+            .bank-info-modal ul li span{ width:1rem}
+                        .button1 {width: 60%;
+    margin: 20px auto;
+    height: 40px;
+
+    border-radius: 5px;
+    display: block;
+    line-height: 40px;
+    background: orangered;
+    text-align: center;
+    color: #fff;}
+        </style>
+
+
+
+
+
+
+
+
+<form method="post" id="formid">
+  <div class="sign_up">
+      <div class="sign_up_content">
+
+          <ul class="sign_up_list" style="margin-left: 0">
+              <!-- <li class="newinput" ng-show="show_signup_code" style="padding-top: .1rem">
+                  <span class="input-text">
+                      <?php echo _lang("手机号码")?>:
+                  </span> -->
+                  <input style="width: 1.3rem;top: -.1rem;" type="hidden" value="{$userinfo.username}" placeholder="<?php echo _lang("手机号码")?>" name="username" style="position: relative;top:-.11rem" class="username ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" style="">
+              <!-- </li> -->
+
+              <li class="newinput" style="padding-top: .1rem">
+                  <span class="input-text">
+                      <?php echo _lang("新密码")?>:
+                  </span>
+                  <input style="width: 1.3rem;top: -.1rem;" type="password" placeholder="<?php echo _lang("新密码")?>" name="upwd" required="" style="position: relative;top:-.11rem" class="ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" style="">
+              </li>
+              <li class="newinput" style="padding-top: .1rem">
+                  <span class="input-text">
+                      <?php echo _lang("确认密码")?>:
+                  </span>
+                  <input style="width: 1.3rem;top: -.1rem;" type="password" placeholder="<?php echo _lang("确认密码")?>" name="upwd2" required="" style="position: relative;top:-.11rem" class="ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" style="">
+              </li>
+
+          </ul>
+          <button class="newbutton sign_up_btn" onclick="return checkform(this.form);" >
+              <?php echo _lang("重置密码")?>
+          </button>
+      </div>
+       <div class="signin-footer" ng-show="if_signup">
+<!--        <a href="javascript:history.go(-1);">——&nbsp;&nbsp;返回&nbsp;&nbsp;——</a>-->
+    </div>
+
+  </div>
+<div class="spinner-view hide">
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+    <div class="message ng-binding" ng-class="{ 'fadein' : message }"></div>
+</div>
+</ion-view></ion-nav-view>
+
+
+<div class="backdrop"></div><div class="ionic_toast"><div class="toast_section" ng-class="ionicToast.toastClass" ng-style="ionicToast.toastStyle" ng-click="hideToast()" style="display: none; opacity: 0;"><span class="ionic_toast_close"><i class="ion-android-close toast_close_icon"></i></span><span ng-bind-html="ionicToast.toastMessage" class="ng-binding"></span></div></div></body></html>
+<script>
+function checkform(form){
+	var username = form.username.value;
+	var upwd = form.upwd.value;
+	var upwd2 = form.upwd2.value;
+	// if(!username){
+	// 	layer.msg('<?php echo _lang("请输入手机号")?>');
+	// 	return false;
+	// }
+
+	if (!upwd) {
+		layer.msg('<?php echo _lang("请输入登录密码")?>');
+		return false;
+	}
+
+	if (!upwd2) {
+		layer.msg('<?php echo _lang("请再次输入登录密码")?>');
+		return false;
+	}
+
+	if(upwd.length !== 6){
+		layer.msg('<?php echo _lang("请输入6位密码")?>');
+		return false;
+	}
+
+	if(upwd !== upwd2){
+		layer.msg('<?php echo _lang("两次输入密码不同")?>');
+		return false;
+	}
+
+
+
+
+	var data = $('#formid').serialize();
+    var formurl = "{:Url('login/respass')}";
+    var locurl = "{:Url('index/user/index')}";
+
+    WPpost(formurl,data,locurl);
+    return false;
+}
+</script>

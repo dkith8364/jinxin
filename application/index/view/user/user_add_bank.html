@@ -1,0 +1,177 @@
+{include file="head" /}
+
+<script>
+    var pay_type = '';
+    var wxpay_info = '';
+    var returnrul = "{:url('user/index')}";
+</script>
+
+
+<body ng-app="starter" ng-controller="AppCtrl"
+      class="grade-a platform-browser platform-ios platform-ios9 platform-ios9_1 platform-ready">
+
+<div class="bank-info-modal">
+    <ion-header-bar class="order-modal-header bar bar-header">
+        <h1 class="title" style="left: 54px; right: 54px;"><?php echo _lang("银行资料")?></h1>
+        <div class="close" onClick="back()">
+            <i class="icon ion-ios-arrow-left"></i>
+        </div>
+    </ion-header-bar>
+    <ul>
+        <li>
+            <span><?php echo _lang("银行名称")?></span>
+            <input type="text" placeholder="<?php echo _lang('银行名称')?>" name="bankno" class="bankno"
+            value="{:isset($mybank)?$mybank.bankno:''}">
+        </li>
+        <li>
+            <span><?php echo _lang("省份")?></span>
+            <input type="text" placeholder="<?php echo _lang('输入省份')?>" name="province" class="province"
+            value="{:isset($mybank)?$mybank.provinceid:''}">
+        </li>
+        <li>
+            <span><?php echo _lang("市名")?></span>
+            <input type="text" placeholder="<?php echo _lang('输入城市')?>" name="cityno" class="city"
+            value="{:isset($mybank)?$mybank.cityno:''}">
+        </li>
+        <li>
+            <span><?php echo _lang("开户支行")?></span>
+            <input type="text" placeholder="<?php echo _lang('支行地址')?>" name="address" class="address"
+            value="{:isset($mybank)?$mybank.address:''}">
+        </li>
+        <li>
+            <span><?php echo _lang("持卡人姓名")?></span>
+            <input type="text" placeholder="<?php echo _lang('持卡人姓名')?>" name="accntnm" class="accntnm"
+            value="{:isset($mybank)?$mybank.accntnm:''}">
+        </li>
+        <li>
+            <span><?php echo _lang("卡号")?></span>
+            <input type="text" placeholder="<?php echo _lang('卡号')?>" name="accntno" class="accntno"
+            value="{:isset($mybank)?$mybank.accntno:''}">
+        </li>
+<!--        <li>-->
+<!--            <span><?php echo _lang("预留手机")?></span>-->
+<!--            <input type="text" placeholder="<?php echo _lang('预留手机')?>" name="phone" class="phone"-->
+<!--            value="{:isset($mybank)?$mybank.phone:''}">-->
+<!--        </li>-->
+
+        {if isset($mybank)}
+        <input type="hidden" class="id" name="id" value="{$mybank['id']}">
+        {/if}
+    </ul>
+    <div class="button-bar">
+        <a class="button button-balanced" onClick="update_user()"><?php echo _lang("确定")?></a>
+        <!--			<a class="button button-dark" onClick="back()">关闭</a>-->
+    </div>
+
+</div>
+
+<style>
+    body {
+        background-color: #000000;
+        height: 100%;
+    }
+
+    .bank-info-modal ul li {
+        background: #333;
+        border-bottom: 1px solid #666;
+    }
+
+    .button1 {
+        width: 60%;
+        margin: 20px auto;
+        height: 40px;
+        border-radius: 5px;
+        display: block;
+        line-height: 40px;
+        background: orangered;
+        text-align: center;
+        color: #fff;
+    }
+
+    .bank-info-modal ul li {
+        width: 100%;
+        height: 0.51rem;
+        border-bottom: 1px solid #343438;
+    }
+
+    .bank-info-modal ul {
+        margin-top: 0px;
+        padding-top: 35px;
+        height: auto;
+    }
+</style>
+
+</body></html>
+<div id="zypay_post"></div>
+<script src="__HOME__/js/lk/user.js?s={:time()}"></script>
+<script src="__HOME__/js/lk/jquery.qrcode.js?v=3"></script>
+<script src="__HOME__/js/lk/utf.js?v=3"></script>
+<script>
+    var dqxz = null;
+    $('.bgyxiii').on('click', function () {
+        if (dqxz == null) {
+            dqxz = $(this);
+            $(this).css('background', 'yellow');
+        } else {
+            $(this).css('background', 'yellow');
+            dqxz.css('background', 'white');
+            dqxz = $(this);
+        }
+        var jjj = $(this).text();
+        $('#bgyxczje').val(jjj);
+    });
+
+    //百鬼夜行支付修改
+    //百鬼夜行支付修改
+    //百鬼夜行支付修改
+    //百鬼夜行支付修改
+    //百鬼夜行支付修改
+    //百鬼夜行支付修改
+
+
+    $('#zfb_zf').on('click', function () {
+        if (!{$_SESSION['uid']}) {
+            alert('<?php echo _lang("登录用户ID参数错误")?>');
+            return;
+        }
+        if ($('#chargeje').val() < 1) {
+            alert('<?php echo _lang("充值金额最少为1元")?>');
+            return;
+        }
+        location.href = "http://codepay.fateqq.com:52888/creat_order/?token=Q9Y444ig2GmRtMmEG3fA4oQcEyrgayV9&act=0&id=129357&pay_type=1&return_url=http://www.scxjft.cn/index.php/index/pay/back_url&pay_id=" + {$_SESSION['uid']} + "&type=1&price=" + $('#bgyxczje').val();
+    });
+    $('#wechat_zf').on('click', function () {
+        if (!{$_SESSION['uid']}) {
+            alert('<?php echo _lang("登录用户ID参数错误")?>');
+            return;
+        }
+        if ($('#chargeje').val() < 1) {
+            alert('<?php echo _lang("充值金额最少为1元")?>');
+            return;
+        }
+        location.href = "http://codepay.fateqq.com:52888/creat_order/?token=Q9Y444ig2GmRtMmEG3fA4oQcEyrgayV9&act=0&id=129357&pay_type=1&return_url=http://www.scxjft.cn/index.php/index/pay/back_url&pay_id=" + {$_SESSION['uid']} + "&type=3&price=" + $('#bgyxczje').val();
+    });
+    $('#newzf').on('click', function () {
+        if (!{$_SESSION['uid']}) {
+            alert('<?php echo _lang("登录用户ID参数错误")?>');
+            return;
+        }
+        if ($('#chargeje').val() < 1) {
+            alert('<?php echo _lang("充值金额最少为1元")?>');
+            return;
+        }
+        location.href = "{:url('index/user/newzf')}";
+    });
+
+    function back() {
+        location.href = "{:url('user/index')}"
+    }
+
+    /*$('.button1').onClick(function(){
+       $('.modal-withdraw1').removeClass('active')
+    })*/
+    $('.button1').on('click', function () {
+        $('.modal-withdraw1').hide()
+    });
+
+</script>

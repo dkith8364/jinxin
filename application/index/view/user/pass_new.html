@@ -1,0 +1,113 @@
+{include file="head" /}
+
+<script>
+var pay_type = '';
+var wxpay_info = '';
+var returnrul = "{:url('user/index')}";
+</script>
+
+<style>
+.scroll-content{
+    overflow: scroll
+}
+</style>
+
+<body ng-app="starter" ng-controller="AppCtrl" class="navbar grade-a platform-browser platform-ios platform-ios9 platform-ios9_1 platform-ready">
+
+<ion-nav-view class="view-container" nav-view-transition="ios" nav-view-direction="none" nav-swipe=""><ion-tabs class="tabs-icon-top navbar pane tabs-bottom tabs-standard" abstract="true" nav-view="active" style="opacity: 1; transform: translate3d(0%, 0px, 0px);"><div class="tab-nav tabs">
+
+
+<a href="/"  class="iconfont icon--6 tabnone tab-item " style=""><span class="tab-title ng-binding" ><?php echo _lang("商品行情")?></span></a>
+<a href="{:url('order/hold')}" class="iconfont icon--7 tabnone tab-item" style=""><span class="tab-title ng-binding" ><?php echo _lang("交易记录")?></span></a>
+<a href="javascript:;" class="iconfont icon--8 tabnone tab-item" style=""><span class="tab-title ng-binding kefu" ><?php echo _lang("客服")?></span></a>
+<a href="{:url('user/index')}"  class="iconfont icon--8 tabnone tab-item tab-item-active" style=""><span class="tab-title ng-binding" ><?php echo _lang("个人账户")?></span></a>
+
+</div>
+
+    <ion-nav-bar class="bar-stable headerbar nav-bar-container" nav-bar-transition="ios" nav-bar-direction="swap" nav-swipe="">
+
+    	<div class="nav-bar-block" nav-bar="active">
+    		<ion-header-bar class="bar-stable headerbar bar bar-header" align-title="center">
+    			<div class="title title-center header-item" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);"><?php echo _lang("充值订单")?></div>
+    		</ion-header-bar>
+    	</div>
+    </ion-nav-bar>
+
+<div class="modal-backdrop modal-bank"><div class="modal-wrapper" ng-transclude="">
+    <ion-modal-view class="order-modal bank-info-modal modal ">
+    <ion-header-bar class="order-modal-header bar bar-header">
+        <h1 class="title" style="left: 54px; right: 54px;"><?php echo _lang("提现")?></h1>
+        <div class="close">
+           <a style="color:#fff"  href="{:url('user/index')}"> <i class="icon ion-ios-arrow-left"></i></a>
+        </div>
+    </ion-header-bar>
+
+    <ul >
+          <style>
+
+            .bank-info-modal ul li{ background:#333;border-bottom: 1px solid #666;}
+            .bank-info-modal ul li span{ width:1rem}
+                        .button1 {width: 60%;
+    margin: 20px auto;
+    height: 40px;
+
+    border-radius: 5px;
+    display: block;
+    line-height: 40px;
+    background: orangered;
+    text-align: center;
+    color: #fff;}
+        </style>
+        <li>
+            <span style="width: 1rem"><?php echo _lang("提现密码")?>:</span>
+            <input style="width: 1.3rem" type="text" placeholder="<?php echo _lang("请输入新提现密码")?>" name="accntnm" id="pass"  class="accntnm" value="">
+        </li>
+        <li>
+            <span style="width: 1rem"><?php echo _lang("确认密码")?>:</span>
+            <input style="width: 1.3rem" type="text" placeholder="<?php echo _lang("请再次输入新提现密码")?>" name="accntno" id="new_pass" class="accntno" value="">
+        </li>
+
+  <a class="button1 " onClick="submit_deposit2()"><?php echo _lang("确认")?></a>
+
+        	<input type="hidden" class="id" name="id" value="">
+
+    </ul>
+
+
+</ion-modal-view></div></div>
+
+    </ion-tabs>
+</ion-nav-view>
+{include file="footer" /}
+</body>
+</html>
+<div id="zypay_post"></div>
+<script src="__HOME__/js/lk/user.js?v=4"></script>
+<script src="__HOME__/js/lk/jquery.qrcode.js?v=3"></script>
+<script src="__HOME__/js/lk/utf.js?v=3"></script>
+<script>
+    function submit_deposit2() {
+        var pass = $('#pass').val();
+        var new_pass = $('#new_pass').val();
+
+        if (!pass || !new_pass) {
+            layer.msg('<?php echo _lang("请正确填写密码")?>');
+            return false;
+        }
+
+        if (pass != new_pass) {
+            layer.msg('<?php echo _lang("两次密码不一致确认")?>');
+            return false;
+        }
+
+        var postdata = 'pass='+pass+'&new_pass='+new_pass;
+    	var posturl = '/index/user/pass_new';
+        $.post(posturl,postdata,function(resdata){
+            layer.msg(resdata.data);
+    		if(resdata.type == 1){
+    		    location.href="{:url('user/index')}"
+
+    		}
+    	})
+    }
+</script>

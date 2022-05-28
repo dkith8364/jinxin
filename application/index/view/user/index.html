@@ -1,0 +1,1364 @@
+{include file="head" /}
+
+<script>
+	var pay_type = '';
+	var wxpay_info = '';
+	var returnrul = "{:url('user/index')}";
+</script>
+
+<style>
+	.scroll-content {
+		/*overflow: scroll;*/
+		overflow-y: auto;
+	}
+</style>
+
+<body ng-app="starter" ng-controller="AppCtrl"
+	  class="grade-a platform-browser platform-ios platform-ios9 platform-ios9_1 platform-ready">
+
+<ion-nav-bar class="bar-stable headerbar nav-bar-container" nav-bar-transition="ios" nav-bar-direction="swap"
+			 nav-swipe="">
+
+	<div class="nav-bar-block" nav-bar="active">
+		<ion-header-bar class="bar-stable headerbar bar bar-header" align-title="center">
+			<div class="title title-center header-item"
+				 style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);"><?php echo _lang("个人中心")?></div>
+		</ion-header-bar>
+	</div>
+</ion-nav-bar>
+
+
+<ion-nav-view class="view-container" nav-view-transition="ios" nav-view-direction="none" nav-swipe="">
+	<ion-tabs class="tabs-icon-top navbar pane tabs-bottom tabs-standard" abstract="true" nav-view="active"
+			  style="opacity: 1; transform: translate3d(0%, 0px, 0px);">
+		<div class="tab-nav tabs">
+
+
+			<a href="{:Url('/index/index/index/token/'.$token)}" class="iconfont icon--6 tabnone tab-item "
+			   style=""><span class="tab-title ng-binding hangqing"><?php echo _lang("商品行情")?></span></a>
+			<a href="{:url('/index/order/hold/token/'.$token)}" class="iconfont icon--7 tabnone tab-item "
+			   style=""><span class="tab-title ng-binding jiaoyijilu"><?php echo _lang("交易记录")?></span></a>
+			<a href="javascript:;" class="iconfont icon--8 tabnone tab-item" style=""><span
+					class="tab-title ng-binding kefu"><?php echo _lang("在线客服")?></span></a>
+			<a href="{:url('/index/user/index/token/'.$token)}"
+			   class="iconfont icon--9 tabnone tab-item tab-item-active" style=""><span
+					class="tab-title ng-binding"><?php echo _lang("个人账户")?></span></a>
+
+		</div>
+
+		<ion-nav-view name="tab-profile" class="view-container tab-content" nav-view="active" nav-view-transition="ios"
+					  nav-view-direction="swap" nav-swipe="">
+			<ion-view view-title="<?php echo _lang(" 个人中心
+			")?>" hide-nav-bar="false" class="pane" state="tab.profile" nav-view="active" style="opacity: 1; transform:
+			translate3d(0%, 0px, 0px);">
+			<ion-content class="personalbg scroll-content ionic-scroll scroll-content-false  has-header has-tabs"
+						 scroll="false">
+				<header>
+<!--					<i onClick="app_exit()" class="iconfont icon&#45;&#45;cancel"></i>-->
+					<article style="display: block;">
+						<!--<input type="file"
+							   style="opacity:0; filter:alpha(opacity=0);  position: absolute; top: 0.4rem; left: 1.2rem; z-index: 9;"
+							   onchange="handleFiles(this,'icon')">-->
+						<img id="icon"
+							 src="{$userinfo.portrait?'/public/uploads/'.$userinfo.portrait:'__HOME__/img/logobg_new.jpg'}">
+					</article>
+					<p class="ng-binding"><span id="name">{$userinfo.nickname?$userinfo.nickname:$userinfo.username}
+						<!--				{/if}-->
+		</span><span class="iconfont icon--respass" onClick="respass()"></span></p>
+
+					<p class="ng-binding">{$userinfo.username}{if $userinfo.otype == 101} <?php echo _lang("代理商")?>&nbsp;
+						&nbsp;<?php echo _lang("邀请码")?>：{$userinfo.uid} {/if}
+
+					<p class="ng-binding">￥{$userinfo.usermoney}</p>
+				</header>
+				<ul>
+					<!-- <li>
+                        <section onclick="show_user_modal('modal-bank')" class="">
+                            <i class="iconfont icon--19 qianyue"></i>
+                            <p>签约</p>
+                        </section>
+                    </li> -->
+
+
+					<li ng-show="is_get_pay_list" class="" style="">
+						<!--						<section onClick="show_user_modal('modal-bank1')" class="">-->
+						<!--							<a href="{:url('chongzhi_select')}" style="text-decoration: none!important;">-->
+						<!--								<i class="iconfont icon&#45;&#45;5 rujin"></i>-->
+
+						<!--								<p><?php echo _lang("充值")?></p>-->
+						<!--							</a>-->
+						<section>
+							<a href="javascript:;" style="text-decoration: none!important;">
+								<i class="iconfont icon&#45;&#45;5 rujin"></i>
+								<p class="kefu"><?php echo _lang("充值")?></p>
+							</a>
+						</section>
+					</li>
+					<li>
+
+
+						<section onclick="pass_check()">
+							<i class="iconfont icon--4 chujin"></i>
+							<p><?php echo _lang("提现")?></p>
+						</section>
+					</li>
+					<!--
+                                <li>
+                                    <section onClick="show_user_modal('modal-withdraw')" class="">
+                                        <i class="iconfont icon--4 chujin"></i>
+                                        <p>提现</p>
+                                    </section>
+                                </li>-->
+					<li>
+						<section onClick="show_user_modal('modal-olist')" class="">
+							<i class="iconfont icon--- zijin"></i>
+							<p><?php echo _lang("订单")?></p>
+						</section>
+					</li>
+					<li>
+						<section>
+							<a href="javascript:;" style="text-decoration: none!important;">
+								<i class="iconfont icon--service chujin"></i>
+								<p class="kefu"><?php echo _lang("客服")?></p>
+							</a>
+						</section>
+					</li>
+					<!--	<li>
+                            <section onClick="show_user_modal('modal-bank2')" class="">
+                                <i class="iconfont icon--16 chujin"></i>
+                                <p>App</p>
+                            </section>
+                        </li>-->
+
+
+				</ul>
+
+				<!-- <div class="erwema_img">
+                    <img alt="我的二维码" src="http://pan.baidu.com/share/qrcode?w=165&h=165&url={$oid_url}">
+                </div>
+                <p>
+                    <span>扫描二维码注册</span>
+                    <span style="display: none;">分享<i class="iconfont"></i></span>
+                </p> -->
+				<div class="user_btn">
+					<a href="{:url('cashlist')}">
+						<p class="user_btn_p">
+							<i style="color:#1fc65b;font-size:0.25rem"
+							   class="iconfont icon--16 chujin"></i>　<?php echo _lang("提现记录")?>
+							<span class="right">></span>
+						</p>
+					</a>
+				</div>
+
+				<div class="user_btn">
+					<a href="{:url('reglist')}">
+						<p class="user_btn_p">
+							<i style="color:#1fc65b;font-size:0.25rem"
+							   class="iconfont icon--4 chujin"></i>　<?php echo _lang("充值记录")?>
+							<span class="right">></span>
+						</p>
+					</a>
+				</div>
+
+				<div class="user_btn">
+					<a href="{:url('order/hold')}">
+						<p class="user_btn_p">
+							<i style="color:#ebac34;font-size:0.25rem"
+							   class="iconfont icon--2 zijin"></i>　<?php echo _lang("交易记录")?>
+							<span class="right">></span>
+						</p>
+					</a>
+				</div>
+				<div class="user_btn">
+					<!--					<a href="../login/respass.html">-->
+					<a href="{:url('login/respass')}">
+						<p class="user_btn_p">
+							<i style="color:#42FFEE;font-size:0.25rem"
+							   class="iconfont icon--login zijin"></i>　<?php echo _lang("登录密码")?>
+							<span class="right">></span>
+						</p>
+					</a>
+				</div>
+
+				<div class="user_btn">
+					<a href="javascript:;" onClick="respass1()">
+						<p class="user_btn_p">
+							<i style="color:#42FFEE;font-size:0.25rem"
+							   class="iconfont icon--10 zijin"></i>　<?php echo _lang("提现密码")?>
+							<span class="right">></span>
+						</p>
+					</a>
+				</div>
+
+				<div class="user_btn">
+					<a href="javascript:;" onClick="app_exit()">
+						<p class="user_btn_p">
+							<i style="color:#6EFF00;font-size:0.25rem"
+							   class="iconfont icon--9-2 zijin"></i>　<?php echo _lang("安全退出")?>
+							<span class="right">></span>
+						</p>
+					</a>
+				</div>
+
+
+			</ion-content>
+			</ion-view></ion-nav-view>
+	</ion-tabs>
+</ion-nav-view>
+
+<div class="modal-backdrop hide modal-olist">
+	<div class="modal-backdrop-bg">
+
+	</div>
+	<div class="modal-wrapper" ng-transclude="">
+		<ion-modal-view class="order-modal modal slide-in-up ng-leave ng-leave-active">
+			<ion-header-bar class="order-modal-header bar bar-header">
+				<h1 class="title" style="left: 54px; right: 54px;"><?php echo _lang("订单明细")?></h1>
+				<div class="close" onClick="hide_user_modal('modal-olist')">
+					<i class="icon ion-ios-arrow-left"></i>
+				</div>
+			</ion-header-bar>
+			<ion-content class="person_money_list scroll-content ionic-scroll  has-header">
+				<div class="scroll" style="transform: translate3d(0px, 0px, 0px) scale(1);">
+					<ion-scroll style="height:100%" class="scroll-view ionic-scroll scroll-y">
+						<div class="scroll" style="transform: translate3d(0px, -10px, 0px) scale(1);">
+
+							<ul class="price_list">
+								{volist name="order_list" id="vo"}
+								<li ng-repeat="c in moneyList" class="" isshow="0">
+									<div class="money_list_header">
+										<section class="other_money_bg">
+
+										</section>
+										<section>
+											<p class="ng-binding other_money">{$vo.title}</p>
+											<p>
+												<i class="iconfont icon--1 "></i>
+												<i class="iconfont icon-30 ng-hide"></i>
+												<span class="ng-binding">{$vo.nowmoney}</span>
+											</p>
+											<p>
+												<i class="iconfont icon--clock pay_blue"></i>
+												<span class="ng-binding">{:date('Y-m-d H:i:s',$vo['time'])}</span>
+												<!-- <span class="ng-binding">14:13:04</span> -->
+											</p>
+										</section>
+										<section class="ng-binding other_money">
+											{$vo.account}
+										</section>
+										<section class="icon clickshow ion-ios-arrow-up">
+										</section>
+									</div>
+									<article class="today_list_footer" style="display: none;">
+										<p class="ng-binding"><?php echo _lang("详情")?>：<span>{$vo.content}</span></p>
+									</article>
+								</li>
+								{/volist}
+							</ul>
+							<!-- ngIf: has_more_money_order.if_has_more_money_order -->
+						</div>
+						<div class="scroll-bar scroll-bar-v">
+							<div class="scroll-bar-indicator scroll-bar-fade-out"
+								 style="height: 631px; transform: translate3d(0px, 10px, 0px) scaleY(1);"></div>
+						</div>
+					</ion-scroll>
+				</div>
+				<div class="scroll-bar scroll-bar-v">
+					<div class="scroll-bar-indicator scroll-bar-fade-out"
+						 style="transform: translate3d(0px, 0px, 0px) scaleY(1); height: 0px;"></div>
+				</div>
+			</ion-content>
+			<div class="button-bar">
+				<a class="button button-dark" onClick="hide_user_modal('modal-olist')"><?php echo _lang("关闭")?></a>
+			</div>
+		</ion-modal-view>
+	</div>
+</div>
+
+<div class="modal-backdrop hide modal-bank">
+	<div class="modal-wrapper" ng-transclude="">
+		<ion-modal-view class="order-modal bank-info-modal modal slide-in-up ng-leave ng-leave-active">
+			<ion-header-bar class="order-modal-header bar bar-header">
+				<h1 class="title" style="left: 54px; right: 54px;"><?php echo _lang("银行资料")?></h1>
+				<div class="close" onClick="hide_user_modal('modal-bank')">
+					<i class="icon ion-ios-arrow-left"></i>
+				</div>
+			</ion-header-bar>
+			<ul>
+				<!--	<li>
+                        <span>银行名称</span>
+                        <select name="bankno" class=" bankno">
+
+                            {volist name="banks" id="vo"}
+
+                            <option label="{$vo.bank_nm}" value="{$vo.id}" {if isset($mybank) && $mybank['bankno'] == $vo['id']} selected="selected" {/if} >{$vo.bank_nm}</option>
+
+                            {/volist}
+
+                        </select>
+                    </li>
+                    <li>
+                        <span>省份</span>
+                        <select id="province" class="province" name="province" style="">
+                            <option value="">请选择</option>
+                            {volist name="province" id="vo"}
+
+                            <option  value="{$vo.id}" {if isset($mybank) && $mybank['provinceid'] == $vo['id']} selected="selected" {/if} >{$vo.name}</option>
+
+                            {/volist}
+
+                        </select>
+                    </li>
+                    <li>
+                        <span>市名</span>
+                        <select id="city" name="cityno" class="city">
+                            {if isset($mybank)}
+                            <option value="{$mybank.cityno}">{:getarea($mybank['cityno'])}</option>
+                            {else/}
+                            <option value="">请选择</option>
+                            {/if}
+                        </select>
+                    </li>
+                    <li>
+                        <span>开户支行</span>
+                        <input type="text" placeholder="支行地址" name="address" class="address" value="{:isset($mybank)?$mybank.address:''}">
+                    </li>-->
+				<li>
+					<span><?php echo _lang("开户名")?></span>
+					<input type="text" placeholder="<?php echo _lang(" 持卡人姓名")?>" name="accntnm" class="accntnm"
+					value="{:isset($mybank)?$mybank.accntnm:''}">
+				</li>
+				<li>
+					<span><?php echo _lang("卡号")?></span>
+					<input type="text" placeholder="<?php echo _lang(" 银行卡号")?>" name="accntno" class="accntno"
+					value="{:isset($mybank)?$mybank.accntno:''}">
+				</li>
+				<li>
+					<span><?php echo _lang("身份证号")?></span>
+					<input type="text" placeholder="<?php echo _lang(" 身份证号")?>" name="scard" class=" scard"
+					value="{:isset($mybank)?$mybank.scard:''}">
+				</li>
+				<li>
+					<span><?php echo _lang("预留手机")?></span>
+					<input type="text" placeholder="<?php echo _lang(" 预留手机号")?>" name="phone" class="phone"
+					value="{:isset($mybank)?$mybank.phone:''}">
+				</li>
+
+				{if isset($mybank)}
+				<input type="hidden" class="id" name="id" value="{$mybank['id']}">
+				{/if}
+			</ul>
+			<div class="button-bar">
+				<a class="button button-balanced" onClick="update_user()"><?php echo _lang("确定")?></a>
+				<a class="button button-dark" onClick="hide_user_modal('modal-bank')"><?php echo _lang("关闭")?></a>
+			</div>
+
+		</ion-modal-view>
+	</div>
+</div>
+<!--入金 -->
+<div class="modal-backdrop hide modal-deposit">
+	<div class="modal-backdrop-bg"></div>
+	<div class="modal-wrapper" ng-transclude="">
+		<ion-modal-view class="order-modal modal slide-in-up ng-leave ng-leave-active model-bank-tab">
+			<ion-header-bar class="order-modal-header bar bar-header">
+				<h1 class="title" style="left: 54px; right: 54px;"><?php echo _lang("用户入金")?></h1>
+				<div class="close" onclick="hide_user_modal('modal-deposit')">
+					<i class="icon ion-ios-arrow-left"></i>
+				</div>
+			</ion-header-bar>
+			<div class="pay_code_area" style="display: none">
+				<div>
+					<div class="pay_code_img">
+					</div>
+					<p><?php echo _lang("扫描二维码支付")?></p>
+					<p><a href=""><?php echo _lang("充值成功点击刷新")?></a></p>
+					<p><a href="javascript:;" onclick="pay_code_area(0)"><?php echo _lang("关闭")?></a></p>
+				</div>
+			</div>
+			<ion-content id="in_money_content" class="scroll-content ionic-scroll  has-header">
+				<div class="scroll" style="transform: translate3d(0px, 0px, 0px) scale(1);">
+					<!--	<header>
+                            <ul>
+
+                                {volist name="payment" id="vo"}
+                                 <li class="pay_channel" >
+
+                                    <label class="pay_weixin item item-radio item item-radio" name="pay_type" onclick="check_payid('{$vo.pay_conf_arr.name}')"  value="{$vo.pay_conf_arr.name}">
+                                        <input type="radio" name="pay_type" class="ng-pristine ng-untouched ng-valid ng-not-empty" value="{$vo.pay_conf_arr.name}">
+                                        <div class="radio-content">
+                                            <div class="item-content disable-pointer-events" >
+                                            <div class="pay_bank_list_header">
+                                                <div class="kuang"></div>
+
+                                                {if $vo.pay_conf_arr.name == 'alipay' || $vo.pay_conf_arr.name == 'mcali'}
+                                                <i class="pay_alipay_bg"></i>
+                                                <article>
+                                                <p class="pay_alipay">
+                                                <span class="iconfont icon-zhifubao">
+                                                {elseif $vo.pay_conf_arr.name == 'wxpay' ||  $vo.pay_conf_arr.name == 'mcwx'}
+                                                <i class="pay_green_bg"></i>
+                                                <article>
+                                                <p class="pay_green">
+                                                <span class="iconfont icon-weixin">
+                                                {else/}
+                                                <i class="pay_yinlian_bg"></i>
+                                                <article>
+                                                <p class="pay_yinlian">
+                                                <span class="iconfont icon--19">
+                                                {/if}
+
+
+                                                    </span><span class="ng-binding">{$vo.pay_name}</span></p>
+                                                    <p  class="ng-hide"><span class="iconfont "></span><span class="ng-binding"></span></p>
+                                                </article>
+                                            </div>
+                                            </div>
+                                            <i class="radio-icon disable-pointer-events icon ion-checkmark"></i>
+                                        </div>
+                                    </label>
+
+                                    <div  class="pay_bank_list_content ng-hide">
+                                        <ion-scroll style="height: 100%;" scrollbar-y="true" scrollbar-x="false" class="scroll-view ionic-scroll scroll-y">
+                                            <div class="scroll">
+                                                <ul>
+                                                </ul>
+                                            </div>
+                                            <div class="scroll-bar scroll-bar-v">
+                                                <div class="scroll-bar-indicator scroll-bar-fade-out"></div>
+                                            </div>
+                                        </ion-scroll>
+                                    </div>
+
+                                </li>
+                                {/volist}
+
+                            </ul>
+                        </header>-->
+					<style>
+						.ng-binding1 {
+							height: auto;
+							width: 100%;
+							padding: 0 7%;
+							text-align: left;
+							color: #4e4e4f;
+							margin: 0.1rem 0;
+							font-size: 0.12rem;
+						}
+
+						.quickprice {
+							text-align: center;
+						}
+
+						.quickprice li {
+							display: inline-block;
+							width: 32%;
+							height: 0.3rem;
+							border: 1px solid #006a65;
+							margin-bottom: 5px;
+							line-height: 30px;
+							border-radius: 8px;
+							color: #006a65;
+						}
+
+						.addclass {
+							bacnground: #222223;
+							color: red
+						}
+					</style>
+					<div class="out_money_content modal-backdrop hide modal-deposit">
+						<header>
+							<ul>
+
+								{volist name="payment" id="vo"}
+								<li class="pay_channel">
+
+									<label class="pay_weixin item item-radio item item-radio" name="pay_type"
+										   onclick="check_payid('{$vo.pay_conf_arr.name}')"
+										   value="{$vo.pay_conf_arr.name}">
+										<input type="radio" name="pay_type"
+											   class="ng-pristine ng-untouched ng-valid ng-not-empty"
+											   value="{$vo.pay_conf_arr.name}">
+										<div class="radio-content">
+											<div class="item-content disable-pointer-events">
+												<div class="pay_bank_list_header">
+													<div class="kuang"></div>
+
+													{if $vo.pay_conf_arr.name == 'alipay' || $vo.pay_conf_arr.name ==
+													'mcali'}
+													<i class="pay_alipay_bg"></i>
+													<p class="pay_alipay">
+                                <span class="iconfont icon-zhifubao">
+                                {elseif $vo.pay_conf_arr.name == 'wxpay' ||  $vo.pay_conf_arr.name == 'mcwx'}
+                                <i class="pay_green_bg"></i>
+													<p class="pay_green">
+                                <span class="iconfont icon-weixin">
+                                {else/}
+                                <i class="pay_yinlian_bg"></i>
+													<p class="pay_yinlian">
+                                <span class="iconfont icon--19">
+                                {/if}
+
+
+                                    </span><span class="ng-binding">{$vo.pay_name}</span></p>
+													<p class="ng-hide"><span class="iconfont "></span><span
+															class="ng-binding"></span></p>
+													</article>
+												</div>
+											</div>
+											<i class="radio-icon disable-pointer-events icon ion-checkmark"></i>
+										</div>
+									</label>
+
+									<div class="pay_bank_list_content ng-hide">
+										<ion-scroll style="height: 100%;" scrollbar-y="true" scrollbar-x="false"
+													class="scroll-view ionic-scroll scroll-y">
+											<div class="scroll">
+												<ul>
+												</ul>
+											</div>
+											<div class="scroll-bar scroll-bar-v">
+												<div class="scroll-bar-indicator scroll-bar-fade-out"></div>
+											</div>
+										</ion-scroll>
+									</div>
+
+								</li>
+								{/volist}
+
+							</ul>
+						</header>
+						<article style="height:0.8rem">
+	        	<span>
+	        		<i class="iconfont icon--5"></i>
+					<?php echo _lang("充值金额")?>：
+	        	</span>
+							<input id="changepayvalue" type="number" placeholder="<?php echo _lang(" 请输入金额")?>"
+							required="" value="5000" class="ng-pristine ng-untouched ng-valid ng-not-empty
+							ng-valid-required bpprice">
+							<input type="text" style="margin-left:0.2rem; background:#666 !important;"
+								   placeholder="<?php echo _lang(" 备注")?>" required="">
+						</article>
+						<div class="ng-binding1">
+							<ul class="quickprice">
+								<li onclick="changepayvalue(this,5000)">5000</li>
+								<li onclick="changepayvalue(this,10000)">10000</li>
+								<li onclick="changepayvalue(this,50000)">50000</li>
+								<li onclick="changepayvalue(this,100000)">100000</li>
+								<li onclick="changepayvalue(this,200000)">200000</li>
+								<li onclick="changepayvalue(this,300000)">300000</li>
+								<li onclick="changepayvalue(this,500000)">500000</li>
+								<li onclick="changepayvalue(this,1000000)">1000000</li>
+							</ul>
+						</div>
+						<script>
+							function changepayvalue(obj, value) {
+								$('#changepayvalue').val(value);
+							}
+						</script>
+						<!-- <section class="ng-binding"> 入金手续费为0</span> </section>-->
+						<section class="ng-binding"> <?php echo _lang("单次充值至少")?>$<span id="userpay_min">{$conf['userpay_min']}</span><?php echo _lang("起，最多")?>
+							$<span id="userpay_max">{$conf['userpay_max']}</span></section>
+						<footer>
+							<?php echo _lang("余额")?>：<span class="ng-binding">{$userinfo.usermoney}</span>
+
+							<!--手续费：<span ng-show="money_fee.inmoney_fee_type == 0" class="ng-binding">0%</span>
+                            <span ng-show="money_fee.inmoney_fee_type == 1" class="ng-binding ng-hide">$0</span>
+                            实际到账：<span ng-show="money_fee.inmoney_fee_type == 0" class="ng-binding">100.00</span> -->
+
+						</footer>
+
+						<button class="newbutton outmoneybtn"
+								onclick="submit_deposit()"><?php echo _lang("确认充值")?></button>
+
+					</div>
+					</form>
+					</section>
+
+					<input id="hidIsHttps" type="hidden" value="0"/>
+					<!--				<script src="__HOME__/js/lk/jquery-1.10.2.min.js" type="text/javascript"></script>-->
+					<script language="javascript" type="text/javascript">
+						$(function () {
+							var c;
+							var g = false;
+							var a = null;
+							var e = function () {
+								$("#ulOption > li").each(function () {
+									var n = $(this);
+									n.click(function () {
+										g = false;
+										c = n.attr("money");
+										n.children("a").addClass("z-sel");
+										n.siblings().children().removeClass("z-sel").removeClass("z-initsel");
+										var needMoney = parseFloat(n.attr("money")).toFixed(2);
+										if (needMoney <= 0) needMoney = 0.01;
+										$("#price").val(needMoney);
+									})
+								});
+								$("#ulBankList > li").each(function (m) {
+									var n = $(this);
+									n.click(function () {
+										if (m < 2) return;
+										$("#pay_type").val(n.attr("payType"));
+										n.children("a").addClass("z-initsel");
+										n.siblings().children().removeClass("z-initsel");
+									})
+								});
+
+							};
+							e()
+						});
+					</script>
+				</div>
+	</div>
+</div>
+<div class="scroll-bar scroll-bar-v">
+	<div class="scroll-bar-indicator scroll-bar-fade-out"
+		 style="transform: translate3d(0px, 0px, 0px) scaleY(1); height: 0px;"></div>
+</div>
+</ion-content>
+</ion-modal-view></div></div>
+<div class="modal-backdrop hide modal-withdraw">
+	<div class="modal-backdrop-bg"></div>
+	<div class="modal-wrapper" ng-transclude="">
+		<ion-modal-view class="order-modal modal slide-in-up ng-leave ng-leave-active">
+			<ion-header-bar class="order-modal-header bar bar-header">
+				<h1 class="title" style="left: 54px; right: 54px;"><?php echo _lang("用户出金")?></h1>
+				<div class="close" onClick="hide_user_modal('modal-withdraw')">
+					<i class="icon ion-ios-arrow-left"></i>
+				</div>
+			</ion-header-bar>
+			<ion-content class="out_money_content scroll-content ionic-scroll  has-header">
+				<div class="scroll" style="transform: translate3d(0px, 0px, 0px) scale(1);">
+
+					{if !isset($mybank)}
+					<header class="ifnone_add_bank" onclick="go_add_bank()">
+						<p>+</p>
+						<p><?php echo _lang("添加银行卡")?></p>
+					</header>
+					<div class="scroll" style="transform: translate3d(0px, 0px, 0px) scale(1);">
+						{else}
+						<div class="cash">
+							<header class="coldbg hotbg" style="">
+								<p class="ng-binding">{$mybank.bank_nm} </p><span class="editc"
+																				  onClick="go_add_bank()"></span>
+								<p class="ng-binding">**** **** **** {$sub_bankno}</p>
+								<i class="iconfont red">{:substr($mybank.bank_nm,0,3)}</i>
+							</header>
+
+							<article>
+	        	<span>
+	        		<i class="iconfont icon--4"></i>
+					<?php echo _lang("提现金额")?>：
+	        	</span>
+								<input type="number" placeholder="<?php echo _lang(" 请输入出金金额")?>"
+								ng-model="outAmount.outamount" class="cash-price ng-pristine ng-untouched ng-valid
+								ng-not-empty ng-valid-required">
+							</article>
+							<section class="ng-binding"><?php echo _lang("单次提现金额至少")?>$<span class="cash_min"
+																							 attrmax="{$conf.cash_max}">{$conf.cash_min}</span>
+							</section>
+							<footer>
+								<?php echo _lang("余额")?>：<span class="ng-binding">{$userinfo.usermoney}</span>
+								<?php echo _lang("手续费")?>：<span class="ng-binding reg_par" attrdata="{$conf.reg_par}">{$conf.reg_par}%</span>
+								<?php echo _lang("实际到账")?>：<span class="ng-binding true_price"
+																 style="display:none"></span>
+							</footer>
+							<button class="newbutton outmoneybtn"
+									onclick="out_withdraw()"><?php echo _lang("确认出金")?></button>
+						</div>
+						{/if}
+					</div>
+
+				</div>
+				<div class="scroll-bar scroll-bar-v">
+					<div class="scroll-bar-indicator scroll-bar-fade-out"
+						 style="transform: translate3d(0px, 0px, 0px) scaleY(1); height: 0px;"></div>
+				</div>
+			</ion-content>
+		</ion-modal-view>
+	</div>
+</div>
+
+
+<div class="scroll-bar scroll-bar-v">
+	<div class="scroll-bar-indicator scroll-bar-fade-out"
+		 style="transform: translate3d(0px, 0px, 0px) scaleY(1); height: 0px;"></div>
+</div>
+</ion-content>
+</ion-modal-view></div></div>
+
+
+<div class="modal-backdrop hide modal-withdraw1">
+	<div class="modal-backdrop-bg"></div>
+	<div class="modal-wrapper" ng-transclude="">
+		<ion-modal-view class="order-modal modal slide-in-up ng-leave ng-leave-active">
+			<ion-header-bar class="order-modal-header bar bar-header">
+				<h1 class="title" style="left: 54px; right: 54px;"><?php echo _lang("提现")?></h1>
+				<div class="close" onClick="hide_user_modal('modal-withdraw1')">
+					<i class="icon ion-ios-arrow-left"></i>
+				</div>
+			</ion-header-bar>
+			<ion-content class="out_money_content scroll-content ionic-scroll bank-info-modal  has-header">
+				<div class="scroll" style="transform: translate3d(0px, 0px, 0px) scale(1);">
+
+					<ul>
+						<style>
+
+							.bank-info-modal ul li {
+								background: #333;
+								border-bottom: 1px solid #666;
+							}
+
+							.bank-info-modal ul li span {
+								width: 1.2rem
+							}
+
+							.button1 {
+								width: 60%;
+								margin: 20px auto;
+								height: 40px;
+
+								border-radius: 5px;
+								display: block;
+								line-height: 40px;
+								background: orangered;
+								text-align: center;
+								color: #fff;
+							}
+
+							.bank-info-modal ul li {
+								width: 100%;
+								height: 0.51rem;
+								border-bottom: 1px solid #343438;
+							}
+						</style>
+						<li><span><?php echo _lang("提现密码")?>:</span>
+							<input style="width: 1.3rem!important;" type="text" placeholder="<?php echo _lang("输入提现密码")?>"
+							name="accntnm" id="pass" class="accntnm" value="">
+						</li>
+
+
+						<a class="button1 " onClick="pass_yes()"><?php echo _lang("确认")?></a>
+
+
+						<input type="hidden" class="id" name="id" value="">
+
+					</ul>
+					<div class="scroll-bar scroll-bar-v">
+						<div class="scroll-bar-indicator scroll-bar-fade-out"
+							 style="transform: translate3d(0px, 0px, 0px) scaleY(1); height: 0px;"></div>
+					</div>
+			</ion-content>
+		</ion-modal-view>
+	</div>
+</div>
+
+<!--
+
+<div class="modal-backdrop hide modal-olist">
+	<div class="modal-backdrop-bg"></div>
+	<div class="modal-wrapper" ng-transclude="">
+		<ion-modal-view class="order-modal modal slide-in-up ng-leave ng-leave-active">
+			<ion-header-bar class="order-modal-header bar bar-header">
+				<h1 class="title" style="left: 54px; right: 54px;"><?php echo _lang("订单明细")?></h1>
+				<div class="close" onClick="hide_user_modal('modal-olist')">
+					<i class="icon ion-ios-arrow-left"></i>
+				</div>
+			</ion-header-bar>
+			<ion-content class="person_money_list scroll-content ionic-scroll  has-header">
+				<div class="scroll" style="transform: translate3d(0px, 0px, 0px) scale(1);">
+					<ion-scroll style="height:100%" class="scroll-view ionic-scroll scroll-y">
+						<div class="scroll" style="transform: translate3d(0px, -10px, 0px) scale(1);">
+
+							<ul class="price_list">
+								{volist name="order_list" id="vo"}
+								<li ng-repeat="c in moneyList" class="" isshow="0">
+									<div class="money_list_header">
+										<section class="other_money_bg">
+
+										</section>
+										<section>
+											<p class="ng-binding other_money">{$vo.title}</p>
+											<p>
+												<i class="iconfont icon&#45;&#45;1 "></i>
+												<i class="iconfont icon-30 ng-hide"></i>
+												<span class="ng-binding">{$vo.nowmoney}</span></p>
+											<p>
+												<i class="iconfont icon&#45;&#45;clock pay_blue"></i>
+												<span class="ng-binding">{:date('Y-m-d H:i:s',$vo['time'])}</span>
+												&lt;!&ndash; <span class="ng-binding">14:13:04</span> &ndash;&gt;
+											</p>
+										</section>
+										<section class="ng-binding other_money">
+											{$vo.account}
+										</section>
+										<section class="icon clickshow ion-ios-arrow-up">
+										</section>
+									</div>
+									<article class="today_list_footer" style="display: none;">
+										<p class="ng-binding"><?php echo _lang("详情")?>：<span>{$vo.content}</span></p>
+									</article>
+								</li>
+								{/volist}
+							</ul>
+							&lt;!&ndash; ngIf: has_more_money_order.if_has_more_money_order &ndash;&gt;
+						</div>
+						<div class="scroll-bar scroll-bar-v">
+							<div class="scroll-bar-indicator scroll-bar-fade-out"
+								 style="height: 631px; transform: translate3d(0px, 10px, 0px) scaleY(1);"></div>
+						</div>
+					</ion-scroll>
+				</div>
+				<div class="scroll-bar scroll-bar-v">
+					<div class="scroll-bar-indicator scroll-bar-fade-out"
+						 style="transform: translate3d(0px, 0px, 0px) scaleY(1); height: 0px;"></div>
+				</div>
+			</ion-content>
+			<div class="button-bar">
+				<a class="button button-dark" onClick="hide_user_modal('modal-olist')"><?php echo _lang("关闭")?></a>
+			</div>
+		</ion-modal-view>
+	</div>
+</div>
+-->
+
+
+<!--客服 -->
+
+<div class="modal-backdrop hide modal-bank1">
+	<div class="modal-wrapper" ng-transclude="">
+		<ion-modal-view class="order-modal bank-info-modal modal slide-in-up ng-leave ng-leave-active">
+			<ion-header-bar class="order-modal-header bar bar-header">
+				<h1 class="title" style="left: 54px; right: 54px;"><?php echo _lang("联系客服")?></h1>
+				<div class="close" onClick="hide_user_modal('modal-bank1')">
+					<i class="icon ion-ios-arrow-left"></i>
+				</div>
+			</ion-header-bar>
+			<br/><br/><br/><br/><br/>
+			<div class="erwema_img" align="center">
+				<img alt="<?php echo _lang(" 我的二维码")?>" src="/static/index/img/2maa.png" style="width:20%;left: 54px;
+				right: 54px;">
+				<p class="STYLE1">&nbsp;</p>
+				<a href="http://kf.ymchs.cn/php/app.php?widget-mobile">
+					<button class="newbutton outmoneybtn reg_btn">
+						<div>   <?php echo _lang("在线客服")?>   </div>
+					</button>
+			</div>
+			<div class="button-bar">
+
+				<a class="button button-dark" onClick="hide_user_modal('modal-bank1')"><?php echo _lang("关闭")?></a>
+			</div>
+
+		</ion-modal-view>
+	</div>
+</div>
+
+<!--app下载 -->
+</div>
+<div class="scroll-bar scroll-bar-v">
+	<div class="scroll-bar-indicator scroll-bar-fade-out"
+		 style="transform: translate3d(0px, 0px, 0px) scaleY(1); height: 0px;"></div>
+</div>
+</ion-content>
+</ion-modal-view></div></div>
+<div class="modal-backdrop hide modal-bank2">
+	<div class="modal-backdrop-bg"></div>
+	<div class="modal-wrapper" ng-transclude="">
+		<ion-modal-view class="order-modal modal slide-in-up ng-leave ng-leave-active">
+			<ion-header-bar class="order-modal-header bar bar-header">
+				<h1 class="title" style="left: 54px; right: 54px;">APP</h1>
+				<div class="close" onClick="hide_user_modal('modal-bank2')">
+					<i class="icon ion-ios-arrow-left"></i>
+				</div>
+			</ion-header-bar>
+			<br/><br/><br/><br/><br/>
+			<div class="erwema_img" align="center">
+				<img alt="我的二维码<?php echo _lang(" 在线客服")?>" src="/static/index/img/app.png" style="width:40%;left: 54px;
+				right: 54px;">
+				<p>&nbsp;</p>
+				<p>&nbsp;</p>
+				<p>&nbsp;</p>
+				<p>&nbsp;</p>
+				<p>&nbsp;</p>
+				<p>&nbsp;</p>
+				<a href="/hs/app/mi/dd.html">
+					<button class="newbutton outmoneybtn reg_btn">
+
+						<div>    <?php echo _lang("APP下载")?>    </div>
+					</button>
+				</a>
+			</div>
+			<div class="button-bar">
+				<a class="button button-dark" onClick="hide_user_modal('modal-bank2')"><?php echo _lang("关闭")?></a>
+			</div>
+
+
+			<!--
+
+
+            <div class="modal-backdrop active"><div class="modal-backdrop-bg"></div><div class="modal-wrapper" ng-transclude=""><ion-modal-view class="order-modal qrcode-modal modal slide-in-up ng-enter active ng-enter-active">
+                <ion-header-bar class="order-modal-header bar bar-header">
+                    <h1 class="title" style="left: 50px; right: 50px;">移动支付</h1>
+                    <div class="close" ng-click="pay_qrcode_modal.hide()">
+                        <i class="icon ion-ios-close-empty"></i>
+                    </div>
+                </ion-header-bar>
+                <ion-content scroll="false" class="scroll-content ionic-scroll scroll-content-false  has-header">
+                    <div class="pay_weixin_code">
+                        <header>
+                        <p>支付金额：
+                            <span class="ng-binding">100</span>
+                        </p>
+                        </header>
+                        <section ng-show="distinguishQrcode" class="">长按识别</section>
+                        <footer ng-show="distinguishQrcode" class="">
+                            使用其它手机，打开微信或者支付宝，扫一扫也可以支付
+                        </footer>
+                        <footer ng-show="!distinguishQrcode" class="ng-hide">
+                            使用手机截图保存至相册，再微信或者支付宝识别图片可进行支付，也可使用其它手机扫一扫进行支付
+                        </footer>
+                        <div ng-show="!distinguishQrcode" class="no-erweima ng-hide"></div>
+                    </div>
+                </ion-content>
+                <article>
+                    <img ng-src="http://weixin.fxgogogo.com/qrcode?text=weixin%3A//wxpay/bizpayurl%3Fpr%3D8tJpkmg" src="http://weixin.fxgogogo.com/qrcode?text=weixin%3A//wxpay/bizpayurl%3Fpr%3D8tJpkmg">
+                </article>
+            </ion-modal-view></div></div>
+
+
+
+             -->
+
+
+			{include file="footer" /}
+</body></html>
+<div id="zypay_post"></div>
+<script src="__HOME__/js/lk/user.js?s={:time()}"></script>
+<script src="__HOME__/js/lk/jquery.qrcode.js?v=3"></script>
+<script src="__HOME__/js/lk/utf.js?v=3"></script>
+<script>
+	var dqxz = null;
+	$('.bgyxiii').on('click', function () {
+		if (dqxz == null) {
+			dqxz = $(this);
+			$(this).css('background', 'yellow');
+		} else {
+			$(this).css('background', 'yellow');
+			dqxz.css('background', 'white');
+			dqxz = $(this);
+		}
+		var jjj = $(this).text();
+		$('#bgyxczje').val(jjj);
+	});
+
+	//百鬼夜行支付修改
+	//百鬼夜行支付修改
+	//百鬼夜行支付修改
+	//百鬼夜行支付修改
+	//百鬼夜行支付修改
+	//百鬼夜行支付修改
+
+
+	$('#zfb_zf').on('click', function () {
+		if (!{$_SESSION['uid']}) {
+			alert('登录用户ID参数错误');
+			return;
+		}
+		if ($('#chargeje').val() < 1) {
+			alert('充值金额最少为1元');
+			return;
+		}
+		location.href = "http://codepay.fateqq.com:52888/creat_order/?token=Q9Y444ig2GmRtMmEG3fA4oQcEyrgayV9&act=0&id=129357&pay_type=1&return_url=http://www.scxjft.cn/index.php/index/pay/back_url&pay_id=" + {$_SESSION['uid']} + "&type=1&price=" + $('#bgyxczje').val();
+	});
+	$('#wechat_zf').on('click', function () {
+		if (!{$_SESSION['uid']}) {
+			alert('登录用户ID参数错误');
+			return;
+		}
+		if ($('#chargeje').val() < 1) {
+			alert('充值金额最少为1元');
+			return;
+		}
+		location.href = "http://codepay.fateqq.com:52888/creat_order/?token=Q9Y444ig2GmRtMmEG3fA4oQcEyrgayV9&act=0&id=129357&pay_type=1&return_url=http://www.scxjft.cn/index.php/index/pay/back_url&pay_id=" + {$_SESSION['uid']} + "&type=3&price=" + $('#bgyxczje').val();
+	});
+	$('#newzf').on('click', function () {
+		if (!{$_SESSION['uid']}) {
+			alert('登录用户ID参数错误');
+			return;
+		}
+		if ($('#chargeje').val() < 1) {
+			alert('充值金额最少为1元');
+			return;
+		}
+		location.href = "{:url('index/user/newzf')}";
+	});
+
+	$('#province').change(function () {
+		var pid = $(this).val();
+		if (pid != '') {
+			var url = "{:url('getarea')}" + "?id=" + pid;
+			$.get(url, function (data) {
+				$("#city").html(data);
+			});
+		} else {
+			$("#city").html('<option value="">请选择城市</option>');
+		}
+
+
+	});
+
+	/*function respass() {
+		location.href = "{:Url('../login/respass')}"
+	}*/
+
+	function respass1() {
+		location.href = "{:url('user/tixiangai')}"
+	}
+
+	function submit_deposit() {
+		location.href = "{:url('user/congzhi')}"
+	}
+
+	function submit_deposit1() {
+		location.href = "{:url('user/tixian')}"
+	}
+
+	function pass_yes() {
+		var pass = $('#pass').val();
+		if (!pass) {
+			layer.msg('请输入密码');
+			return false;
+		}
+		var postdata = 'pass=' + pass;
+		var posturl = '/index/user/winpass';
+		$.post(posturl, postdata, function (resdata) {
+			console.log(resdata);
+			if (resdata.type == 1) {
+				location.href = "{:url('user/user_tixian')}"
+				// show_user_modal('modal-withdraw');
+			} else if (resdata.type == 2) {
+				location.href = "{:url('user/pass_new')}"
+			} else {
+				layer.msg(resdata.data, {time: 2000});
+				// location.href = "{:url('user/index')}"
+			}
+		})
+
+	}
+
+	function pass_check() {
+		// show_user_modal('modal-withdraw1')
+		var postdata = 'pass=123456';
+		var posturl = '/index/user/winpass';
+		$.post(posturl,postdata,function(resdata){
+			if(resdata.type == 2){
+				location.href="{:url('user/pass_new')}"
+			}else {
+				show_user_modal('modal-withdraw1')
+			}
+		})
+
+	}
+
+	function respass() {
+		var vo = $('#name').text(); //获取原来的值
+		// $('#name').hide();
+		$('#name').html('<input type="text" id="new_val" value="' + vo + '" style="height: 0.20rem;margin-left: 1rem;">');
+		$("#new_val").blur(function () {
+			var _this = $(this); //表示当前元素
+			var new_val = $(this).val(); //新的值
+			//新的值不能为空 -- 这个看情况进行判断，不一定就不能为空
+			if (new_val == '') {
+				layer.msg('修改后不能为空');
+				$('#name').html('<span>' + vo + '</span>');
+				return false;
+			}
+
+			var postdata = 'name=' + new_val;
+			var posturl = '/index/user/save_name';
+			$.post(posturl, postdata, function (resdata) {
+				if (resdata.type == 1) {
+					$('#name').html('<span>' + new_val + '</span>');
+
+				} else {
+					layer.msg('修改失败');
+					$('#name').html('<span>' + vo + '</span>');
+
+				}
+			})
+		})
+	}
+
+	function handleFiles(obj, id) {
+		file = document.getElementById("icon");
+		var files = obj.files;
+		img = new Image();
+		if (window.URL) {
+			//File API
+			img.src = window.URL.createObjectURL(files[0]); //创建一个object URL，并不是你的本地路径
+			img.onload = function (e) {
+				window.URL.revokeObjectURL(this.src); //图片加载后，释放object URL
+			}
+		}
+		file.src = img.src;
+		//上传文件
+		var fd = new FormData(),//实例化一个表单
+				xhr = new XMLHttpRequest();
+		fd.append('headimg', files[0]);//追加图片元素
+		xhr.open('post', '/index/user/save_img');//请求方式，请求地址
+		xhr.send(fd);
+	}
+
+	function back() {
+		location.href = "{:url('user/index')}"
+	}
+
+	const lang_cookie = getCookie('zh_choose')
+	$('.money_list_header section p.other_money').each((index, ele) => {
+				if (lang_cookie == 't') {
+					switch ($(ele).text()) {
+						case "提现":
+							$(ele).text('提現')
+							break
+						case "提現":
+							$(ele).text('提現')
+							break
+						case '结单':
+							$(ele).text('結單')
+							break
+						case '結單':
+							$(ele).text('結單')
+							break
+						case '下單':
+							$(ele).text('下單')
+							break
+						case '下单':
+							$(ele).text('下單')
+							break
+						case '下单成功':
+							$(ele).text('下單成功')
+							break
+						case '下單成功':
+							$(ele).text('下單成功')
+							break
+						case '对冲':
+							$(ele).text('對沖')
+							break
+					}
+				} else if (lang_cookie == 's') {
+					switch ($(ele).text()) {
+						case "提现":
+							$(ele).text('提現')
+							break
+						case "withdraw":
+							$(ele).text('提現')
+							break
+						case "提現":
+							$(ele).text('提現')
+							break
+						case '结单':
+							$(ele).text('结单')
+							break
+						case 'check':
+							$(ele).text('结单')
+							break
+						case '結單':
+							$(ele).text('结单')
+							break
+						case '下單':
+							$(ele).text('下单')
+							break
+						case '下单':
+							$(ele).text('下单')
+						case 'Place an order':
+							$(ele).text('下单')
+							break
+						case 'order':
+							$(ele).text('下单')
+							break
+						case '下单成功':
+							$(ele).text('下单成功')
+							break
+						case '下單成功':
+							$(ele).text('下单成功')
+							break
+						case 'successfully ordered':
+							$(ele).text('下单成功')
+							break
+						case '对冲':
+							$(ele).text('对冲')
+							break
+						case 'hedge':
+							$(ele).text('对冲')
+							break
+					}
+				} else if (lang_cookie == 'e') {
+					switch ($(ele).text()) {
+						case "提現":
+							$(ele).text('withdraw')
+							break
+						case "提现":
+							$(ele).text('withdraw')
+							break
+						case "结单":
+							$(ele).text('check')
+							break
+						case "結單":
+							$(ele).text('check')
+							break
+						case '下單':
+							$(ele).text('Place an order')
+							break
+						case '下单':
+							$(ele).text('Place an order')
+							break
+						case '下單成功':
+							$(ele).text('successfully ordered')
+							break
+						case '下单成功':
+							$(ele).text('successfully ordered')
+							break
+						case '对冲':
+							$(ele).text('hedge')
+							break
+						case 'profit settlement when the order expires':
+							$(ele).text('订单到期获利结算')
+							break
+						case 'successfully ordered':
+							$(ele).text('下单成功')
+							break
+					}
+
+				} else if (lang_cookie == 'pt') {
+					switch ($(ele).text()) {
+						case "提現":
+							$(ele).text('retirar o')
+							break
+						case "提现":
+							$(ele).text('retirar o')
+							break
+						case "结单":
+							$(ele).text('Verifica')
+							break
+						case "結單":
+							$(ele).text('Verifica')
+							break
+						case '下單':
+							$(ele).text('Fazer um pedido')
+							break
+						case '下单':
+							$(ele).text('Fazer um pedido')
+							break
+						case '下單成功':
+							$(ele).text('pedido com sucesso')
+							break
+						case '下单成功':
+							$(ele).text('pedido com sucesso')
+							break
+						case '对冲':
+							$(ele).text('Cerca')
+							break
+					}
+
+				}
+			}
+	)
+	$('.today_list_footer p>span').each((index, ele) => {
+				if (lang_cookie == 't') {
+					switch ($(ele).text()) {
+						case '提现申请':
+							$(ele).text('提現申請')
+							break
+						case '訂單到期獲利結算':
+							$(ele).text('訂單到期獲利結算')
+							break
+						case '订单到期获利结算':
+							$(ele).text('訂單到期獲利結算')
+							break
+						case '确认出金':
+							$(ele).text('確認出金')
+							break
+						case '下单成功':
+							$(ele).text('下單成功')
+							break
+						case '实际到账':
+							$(ele).text('實際到賬')
+							break
+					}
+				}else if (lang_cookie == 's') {
+					switch ($(ele).text()) {
+						case '提现申请':
+							$(ele).text('提現申請')
+							break
+						case '訂單到期獲利結算':
+							$(ele).text('订单到期获利结算')
+							break
+						case '订单到期获利结算':
+							$(ele).text('订单到期获利结算')
+							break
+						case '确认出金':
+							$(ele).text('确认出金')
+							break
+						case '下单成功':
+							$(ele).text('下单成功')
+							break
+						case '实际到账':
+							$(ele).text('实际到账')
+							break
+						case 'successfully ordered':
+							$(ele).text('下单成功')
+							break
+						case 'profit settlement when the order expires':
+							$(ele).text('订单到期获利结算')
+							break
+					}
+				} else if (lang_cookie == 'e') {
+					switch ($(ele).text()) {
+						case "提现申请":
+							$(ele).text('Withdrawal application')
+							break
+						case "訂單到期獲利結算":
+							$(ele).text('Profit settlement when the order expires')
+							break
+						case "订单到期获利结算":
+							$(ele).text('Profit settlement when the order expires')
+							break
+						case '确认出金':
+							$(ele).text('Confirm withdrawal')
+							break
+						case '下单成功':
+							$(ele).text('successfully ordered')
+							break
+						case '实际到账':
+							$(ele).text('Actually arrived')
+							break
+					}
+
+				} else if (lang_cookie == 'pt') {
+					switch ($(ele).text()) {
+						case "提现申请":
+							$(ele).text('Pedido de retirada')
+							break
+						case "訂單到期獲利結算":
+							$(ele).text('Liquidação do lucro quando o pedido expira')
+							break
+						case "订单到期获利结算":
+							$(ele).text('Liquidação do lucro quando o pedido expira')
+							break
+						case '确认出金':
+							$(ele).text('Confirmar retirada')
+							break
+						case '下单成功':
+							$(ele).text('pedido com sucesso')
+							break
+						case '实际到账':
+							$(ele).text('Realmente chegou')
+							break
+					}
+
+				}
+			}
+	)
+
+</script>

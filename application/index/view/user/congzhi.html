@@ -1,0 +1,154 @@
+{include file="head" /}
+<script src="__HOME__/js/lk/user.js"></script>
+<script>
+var pay_type = '';
+var wxpay_info = '';
+var returnrul = "{:url('user/index')}";
+</script>
+
+<style>
+.scroll-content{
+    overflow: scroll
+}
+</style>
+
+<body ng-app="starter" ng-controller="AppCtrl" class="navbar grade-a platform-browser platform-ios platform-ios9 platform-ios9_1 platform-ready">
+
+<ion-nav-view class="view-container" nav-view-transition="ios" nav-view-direction="none" nav-swipe=""><ion-tabs class="tabs-icon-top navbar pane tabs-bottom tabs-standard" abstract="true" nav-view="active" style="opacity: 1; transform: translate3d(0%, 0px, 0px);"><div class="tab-nav tabs">
+
+
+<a href="/"  class="iconfont icon--6 tabnone tab-item " style=""><span class="tab-title ng-binding" ><?php echo _lang("商品行情")?></span></a>
+<a href="{:url('order/hold')}" class="iconfont icon--7 tabnone tab-item" style=""><span class="tab-title ng-binding" ><?php echo _lang("交易记录")?></span></a>
+<a href="javascript:;" class="iconfont icon--8 tabnone tab-item" style=""><span class="tab-title ng-binding kefu" ><?php echo _lang("在线客服")?></span></a>
+<a href="{:url('user/index')}"  class="iconfont icon--8 tabnone tab-item tab-item-active" style=""><span class="tab-title ng-binding" ><?php echo _lang("个人账户")?></span></a>
+
+</div>
+
+    <ion-nav-bar class="bar-stable headerbar nav-bar-container" nav-bar-transition="ios" nav-bar-direction="swap" nav-swipe="">
+
+    	<div class="nav-bar-block" nav-bar="active">
+    		<ion-header-bar class="bar-stable headerbar bar bar-header" align-title="center">
+    			<div class="title title-center header-item" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);"><?php echo _lang("充值订单")?></div>
+    		</ion-header-bar>
+    	</div>
+    </ion-nav-bar>
+
+<div class="modal-backdrop modal-bank"><div class="modal-wrapper" ng-transclude="">
+    <ion-modal-view class="order-modal bank-info-modal modal ">
+    <ion-header-bar class="order-modal-header bar bar-header">
+        <h1 class="title" style="left: 54px; right: 54px;"><?php echo _lang("充值提交")?></h1>
+        <div class="close" >
+              <a   style="color:#fff"  href="{:url('user/chongzhi_select')}"> <i class="icon ion-ios-arrow-left"></i></a>
+        </div>
+    </ion-header-bar>
+    <h1 style="text-align: center;
+    font-size: 0.14rem;
+    color: #999;
+    margin-top: 48px"><?php echo _lang("请向以下账号转账充值，到账时间")?>：<span style="color:red"><?php echo _lang("30分钟")?></span></h1>
+    <ul >
+        <style>
+
+            .bank-info-modal ul { margin-top:0.2rem!important;}
+            .bank-info-modal ul li{ background:#333;border-bottom: 1px solid #666;}
+            .bank-info-modal ul li span{ width:1.1rem}
+            .button1 {width: 60%;
+    margin: 20px auto;
+    height: 40px;
+
+    border-radius: 5px;
+    display: block;
+    line-height: 40px;
+    background: orangered;
+    text-align: center;
+    color: #fff;}
+        </style>
+
+        <li>
+            <span><?php echo _lang("充值金额")?>:</span>
+            <input type="text" placeholder="<?php echo _lang("充值金额")?>" name="accntnm" id="accntnm" class="accntnm" value="">
+        </li>
+        <li>
+            <span><?php echo _lang("备 注")?>：</span>
+            <input type="text" placeholder="<?php echo _lang("备注")?>" name="comment" id="comment" class="comment" value="">
+        </li>
+        <li>
+            <span><?php echo _lang("银行卡号")?>:</span>
+            <input type="text" placeholder="<?php echo _lang("银行卡号")?>" name="scard" id="scard" class=" scard" value="">
+        </li>
+
+        <li>
+            <span><?php echo _lang("银行支行")?>:</span>
+            <input type="text" placeholder="<?php echo _lang("银行支行")?>" name="bank_address" id="bank_address" class=" scard" value="">
+        </li>
+        <li>
+            <span><?php echo _lang("存款人姓名")?>:</span>
+            <input type="text" placeholder="<?php echo _lang("存款人姓名")?>" name="bank_name" id="bank_name" class=" scard" value="">
+        </li>
+
+
+
+           <a class="button1 " onClick="chongzhi()"><?php echo _lang("我已完成支付")?></a>
+
+
+
+
+
+    </ul>
+<!--    <div class="button-bar">
+        <a class="button button-balanced" onClick="">确定</a>
+      <a class="button button-dark" onClick="hide_user_modal('modal-bank')">关闭</a>
+    </div>-->
+
+</ion-modal-view></div></div>
+
+    </ion-tabs>
+</ion-nav-view>
+{include file="footer" /}
+</body>
+</html>
+<div id="zypay_post"></div>
+
+<script src="__HOME__/js/lk/jquery.qrcode.js"></script>
+<script src="__HOME__/js/lk/utf.js"></script>
+<script>
+function chongzhi() {
+
+	var accntnm = $('#accntnm').val();
+	var comment = $('#comment').val();
+	var scard = $('#scard').val();
+	var bank_address = $('#bank_address').val();
+	var bank_name = $('#bank_name').val();
+	if(!accntnm){
+		layer.msg('<?php echo _lang("请输入金额")?>');
+		return false;
+	}
+
+	if (!bank_address) {
+	    layer.msg('<?php echo _lang("请输入存款银行支行")?>');
+		return false;
+	}
+
+	if (!bank_name) {
+	    layer.msg('<?php echo _lang("请输入存款人姓名")?>');
+		return false;
+	}
+
+	if(!scard){
+		layer.msg('<?php echo _lang("请输入银行卡号")?>');
+		return false;
+	}
+	var postdata = 'accntnm='+accntnm+'&scard='+scard+'&comment='+comment+'&bank_name='+bank_name+'&bank_address='+bank_address;
+	var posturl = '/index/user/recharge';
+	$.post(posturl,postdata,function(resdata){
+
+		layer.msg(resdata.data);
+		if(resdata.type == 1){
+			setTimeout('dourl()',1000);
+		}
+
+	})
+}
+function dourl() {
+    location.href="{:url('user/reglist')}"
+}
+</script>

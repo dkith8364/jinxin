@@ -1,0 +1,277 @@
+{include file="head" /}
+
+<script>
+	var pay_type = '';
+	var wxpay_info = '';
+	var returnrul = "{:url('user/index')}";
+</script>
+
+<style>
+	.scroll-content{
+		/*overflow: scroll;*/
+		overflow-y:auto;
+	}
+	.bank_icon{
+		width: 60px;margin: 12px 0 0 0;border-radius: 10px
+	}
+</style>
+
+<body ng-app="starter" ng-controller="AppCtrl" class="grade-a platform-browser platform-ios platform-ios9 platform-ios9_1 platform-ready">
+
+<ion-header-bar class="order-modal-header bar bar-header">
+	<h1 class="title" style="left: 54px; right: 54px;"><?php echo _lang("用户提现")?></h1>
+	<div class="close" onClick="back()">
+		<i class="icon ion-ios-arrow-left"></i>
+	</div>
+</ion-header-bar>
+<ion-content class="out_money_content scroll-content ionic-scroll  has-header"><div class="scroll" >
+
+	{if !isset($mybank) && !isset($myusdt)}
+	<header class="ifnone_add_bank"  onclick="go_add_bank()">
+		<p><img src="__HOME__/img/bank_icon.png" alt="bank"  class="bank_icon"></p>
+		<p><?php echo _lang("银行卡提现")?></p>
+	</header>
+<!--	<header class="ifnone_add_bank"  onclick="go_add_usdt()">-->
+<!--		<p><img src="__HOME__/img/usdt_icon.png" alt="bank"  class="bank_icon"></p>-->
+<!--		<p><?php echo _lang("USDT提现")?></p>-->
+<!--	</header>-->
+	<div class="scroll" style="transform: translate3d(0px, 0px, 0px) scale(1);">
+		{elseif isset($mybank)}
+		<div  class="cash">
+			<header class="coldbg hotbg"  style="">
+				<p class="ng-binding">{$mybank.bankno} </p>
+				<p class="ng-binding">{$sub_bankno| substr_replace='**** **** ',4,10}{$sub_bankno| substr_replace='',0,strlen($sub_bankno)}</p>
+				<i class="iconfont red">{:mb_substr($mybank.bankno,0,1)}</i>
+			</header>
+
+			<article>
+	        	<span style="width: 45%">
+	        		<i class="iconfont icon--4"></i>
+					<?php echo _lang("提现金额")?>：
+	        	</span>
+				<input style="width: 40%" type="number" placeholder="<?php echo _lang("请输入出金金额")?>" ng-model="outAmount.outamount"  class="cash-price ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required">
+			</article>
+<!--			<section  class="ng-binding"><?php echo _lang("单次提现金额至少")?>$<span class="cash_min" attrmax="{$conf.cash_max}">{$conf.cash_min}</span></section>-->
+			<footer>
+				<?php echo _lang("单次提现金额至少")?>$<span class="cash_min" attrmax="{$conf.cash_max}">{$conf.cash_min}</span><br/>
+<!--				<?php echo _lang("余额")?>：<span class="ng-binding">{$userinfo.usermoney}</span><br/>-->
+				<?php echo _lang("手续费")?>：<span  class="ng-binding reg_par" attrdata="{$conf.reg_par}">{$conf.reg_par}%</span><br/>
+<!--				<?php echo _lang("实际到账")?>：<span  class="ng-binding true_price" style="display:none"></span><br/>-->
+			</footer>
+			<button class="newbutton outmoneybtn"  onclick="outwithdraw()"><?php echo _lang("确认出金")?></button>
+		</div>
+		{elseif isset($myusdt)}
+		<div  class="cash">
+			<header class="coldbg"  style="">
+				<p class="ng-binding">{$myusdt.holder} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$myusdt.intel}</p>
+				<p class="ng-binding">**** **** **** {$sub_host}</p>
+				<i class="iconfont green">{:mb_substr($myusdt.holder,0,1)}</i>
+			</header>
+
+			<article>
+	        	<span style="width: 45%">
+	        		<i class="iconfont icon--4"></i>
+					<?php echo _lang("提现金额")?>：
+	        	</span>
+				<input style="width: 40%" type="number" placeholder="<?php echo _lang("请输入出金金额")?>" ng-model="outAmount.outamount"  class="cash-price ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required">
+			</article>
+<!--			<section  class="ng-binding"><?php echo _lang("单次提现金额至少")?>$<span class="cash_min" attrmax="{$conf.cash_max}">{$conf.cash_min}</span></section>-->
+			<footer class=" reg_par">
+				<?php echo _lang("单次提现金额至少")?>$<span class="cash_min" attrmax="{$conf.cash_max}">{$conf.cash_min}</span><br/>
+<!--				<?php echo _lang("余额")?>：<span class="ng-binding">{$userinfo.usermoney}</span><br/>-->
+				<?php echo _lang("手续费")?>：<span  class="ng-binding reg_par" attrdata="{$conf.reg_par}">{$conf.reg_par}%</span><br/>
+<!--				<?php echo _lang("实际到账")?>：<span  class="ng-binding true_price" style="display:none"></span><br/>-->
+			</footer>
+			<button class="newbutton outmoneybtn"  onclick="outwithdraw()"><?php echo _lang("确认出金")?></button>
+		</div>
+		{/if}
+		<div class="modal-backdrop hide modal-bank1"><div class="modal-wrapper" ng-transclude=""><ion-modal-view class="order-modal bank-info-modal modal slide-in-up ng-leave ng-leave-active">
+			<ion-header-bar class="order-modal-header bar bar-header">
+				<h1 class="title" style="left: 54px; right: 54px;"><?php echo _lang("联系客服")?><?php echo _lang("确认密码")?></h1>
+				<div class="close" onClick="hide_user_modal('modal-bank1')">
+					<i class="icon ion-ios-arrow-left"></i>
+				</div>
+			</ion-header-bar>
+			<br /><br /><br /><br /><br />
+			<div class="erwema_img" align="center">
+				<img alt="<?php echo _lang("我的二维码")?>" src="/static/index/img/2maa.png" style="width:20%;left: 54px; right: 54px;">
+				<p class="STYLE1">&nbsp;</p>
+				<a href="http://kf.ymchs.cn/php/app.php?widget-mobile">
+					<button  class="newbutton outmoneybtn reg_btn" >
+						<div >   <?php echo _lang("在线客服")?>    </div>
+					</button>
+			</div>
+			<div class="button-bar">
+
+				<a class="button button-dark" onClick="hide_user_modal('modal-bank1')">关闭</a>
+			</div>
+
+		</ion-modal-view></div></div>
+
+		<style>
+
+			.bank-info-modal ul li{ background:#333;border-bottom: 1px solid #666;}
+			.bank-info-modal ul li span{ width:1rem}
+			.button1 {width: 60%;
+				margin: 20px auto;
+				height: 40px;
+
+				border-radius: 5px;
+				display: block;
+				line-height: 40px;
+				background: orangered;
+				text-align: center;
+				color: #fff;}
+			.bank-info-modal ul li {
+				width: 100%;
+				height: 0.51rem;
+				border-bottom: 1px solid #343438;
+			}
+		</style>
+
+</body></html>
+<div id="zypay_post"></div>
+<script src="__HOME__/js/lk/user.js?s={:time()}"></script>
+<script src="__HOME__/js/lk/jquery.qrcode.js?v=3"></script>
+<script src="__HOME__/js/lk/utf.js?v=3"></script>
+<script>
+	var dqxz = null;
+	$('.bgyxiii').on('click',function(){
+		if(dqxz == null){
+			dqxz = $(this);
+			$(this).css('background','yellow');
+		}else{
+			$(this).css('background','yellow');
+			dqxz.css('background','white');
+			dqxz = $(this);
+		}
+		var jjj = $(this).text();
+		$('#bgyxczje').val(jjj);
+	});
+
+	//百鬼夜行支付修改
+	//百鬼夜行支付修改
+	//百鬼夜行支付修改
+	//百鬼夜行支付修改
+	//百鬼夜行支付修改
+	//百鬼夜行支付修改
+
+
+	$('#zfb_zf').on('click',function(){
+		if(!{$_SESSION['uid']}){
+			alert('<?php echo _lang("登录用户ID参数错误")?>');
+			return;
+		}
+		if($('#chargeje').val()<1){
+			alert('<?php echo _lang("充值金额最少为1元")?>');
+			return;
+		}
+		location.href = "http://codepay.fateqq.com:52888/creat_order/?token=Q9Y444ig2GmRtMmEG3fA4oQcEyrgayV9&act=0&id=129357&pay_type=1&return_url=http://www.scxjft.cn/index.php/index/pay/back_url&pay_id="+{$_SESSION['uid']}+"&type=1&price="+$('#bgyxczje').val();
+	});
+	$('#wechat_zf').on('click',function(){
+		if(!{$_SESSION['uid']}){
+			alert('<?php echo _lang("登录用户ID参数错误")?>');
+			return;
+		}
+		if($('#chargeje').val()<1){
+			alert('<?php echo _lang("充值金额最少为1元")?>');
+			return;
+		}
+		location.href = "http://codepay.fateqq.com:52888/creat_order/?token=Q9Y444ig2GmRtMmEG3fA4oQcEyrgayV9&act=0&id=129357&pay_type=1&return_url=http://www.scxjft.cn/index.php/index/pay/back_url&pay_id="+{$_SESSION['uid']}+"&type=3&price="+$('#bgyxczje').val();
+	});
+	$('#newzf').on('click',function(){
+		if(!{$_SESSION['uid']}){
+			alert('<?php echo _lang("登录用户ID参数错误")?>');
+			return;
+		}
+		if($('#chargeje').val()<1){
+			alert('<?php echo _lang("充值金额最少为1元")?>');
+			return;
+		}
+		location.href = "{:url('index/user/newzf')}";
+	});
+
+	$('#province').change(function(){
+		var pid = $(this).val();
+		if(pid != ''){
+			var url = "{:url('getarea')}"+"?id="+pid;
+			$.get(url,function(data){
+				$("#city").html(data);
+			});
+		}else{
+			$("#city").html('<option value=""><?php echo _lang("请选择城市")?></option>');
+		}
+
+
+	});
+	function respass1(){
+		location.href="{:url('user/tixiangai')}"
+	}
+	function submit_deposit(){
+		location.href="{:url('user/congzhi')}"
+	}
+	function submit_deposit1(){
+		location.href="{:url('user/tixian')}"
+	}
+	function pass_yes()
+	{
+		var pass = $('#pass').val();
+		if (!pass) {
+			layer.msg('<?php echo _lang("请输入密码")?>');
+			return false;
+		}
+		var postdata = 'pass='+pass;
+		var posturl = '/index/user/winpass';
+		$.post(posturl,postdata,function(resdata){
+			console.log(resdata);
+			if(resdata.type == 1){
+				location.href="{:url('user/user_tixian')}"
+				// show_user_modal('modal-withdraw');
+			} else if (resdata.type == 2) {
+				location.href="{:url('user/pass_new')}"
+			}else {
+				layer.msg(resdata.data);
+				location.href="{:url('user/index')}"
+			}
+		})
+
+	}
+	function back()
+	{
+		location.href="{:url('user/index')}"
+	}
+
+	/*$('.button1').onClick(function(){
+       $('.modal-withdraw1').removeClass('active')
+    })*/
+	$('.button1').on('click',function(){
+		$('.modal-withdraw1').hide()
+	});
+	function outwithdraw() {
+
+		var price = $('.cash-price').val();
+		var cash_min = $('.cash_min').html();
+		var cash_max = $('.cash_min').attr('attrmax');
+		if(price*10 < cash_min*10){
+			// layer.msg('<?php echo _lang("最低提现金额为")?>'+cash_min);
+			layer.msg('<?php echo _lang("最低提现金额为")?>'+cash_min);
+			return false;
+		}
+
+		if(price*10 > cash_max*10){
+			layer.msg('<?php echo _lang("最高提现金额为")?>'+cash_max);
+			return false;
+		}
+
+		var postdata = 'price='+price;
+		var posturl = '/index/user/cash';
+		$.post(posturl,postdata,function(resdata){
+
+			layer.msg(resdata.data);
+			if(resdata.type == 1){
+				setTimeout(location.href='/index/user/cashlist',1000);
+			}
+
+		})
+	}
+</script>

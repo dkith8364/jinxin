@@ -1,0 +1,45 @@
+{include file="head" /}
+
+<style>
+    .scroll-content{
+        /*overflow: scroll;*/
+        overflow-y:auto;
+    }
+    .bank_icon{
+        width: 60px;margin: 12px 0 0 0;border-radius: 10px
+    }
+</style>
+
+<body ng-app="starter" ng-controller="AppCtrl" class="grade-a platform-browser platform-ios platform-ios9 platform-ios9_1 platform-ready">
+
+<ion-header-bar class="order-modal-header bar bar-header">
+    <h1 class="title" style="left: 54px; right: 54px;"><?php echo _lang("选择充值方式")?></h1>
+    <div class="close" onClick="back()">
+        <i class="icon ion-ios-arrow-left"></i>
+    </div>
+</ion-header-bar>
+<ion-content class="out_money_content scroll-content ionic-scroll  has-header"><div class="scroll" >
+    <a href="{:url('congzhi')}">
+    <header class="ifnone_add_bank">
+        <p><img src="__HOME__/img/bank_icon.png" alt="bank"  class="bank_icon"></p>
+        <p><?php echo _lang("充值现金")?></p>
+    </header>
+    </a>
+    <a href="{:url('congzhi_usdt')}">
+    <header class="ifnone_add_bank">
+        <p><img src="__HOME__/img/usdt_icon.png" alt="bank"  class="bank_icon"></p>
+        <p><?php echo _lang("充值数字货币")?></p>
+    </header>
+    </a>
+<ion-content/>
+</body></html>
+<div id="zypay_post"></div>
+<script src="__HOME__/js/lk/user.js?s={:time()}"></script>
+<script src="__HOME__/js/lk/jquery.qrcode.js?v=3"></script>
+<script src="__HOME__/js/lk/utf.js?v=3"></script>
+<script>
+    function back()
+    {
+        location.href = "{:Url('index/user/index')}"
+    }
+</script>
