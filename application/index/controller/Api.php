@@ -208,6 +208,7 @@ class Api extends Controller {
             case 'GET' :
                 $opts[CURLOPT_URL] = $url . '?' . http_build_query($params);
                 $opts[CURLOPT_URL] = substr($opts[CURLOPT_URL],0,-1);
+                $opts[CURLOPT_REFERER] = "http://finance.sina.com.cn";
                 break;
             case 'POST' :
                 //判断是否传输文件
