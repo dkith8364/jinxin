@@ -1,2 +1,1 @@
-更新产品时间前
-cd /www/wwwroot/chongxiewaihui && ./application/extra/queuq.sh
+su - www -s /bin/bash /www/wwwroot/chongxiewaihui/application/extra/queuq.sh
