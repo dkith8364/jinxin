@@ -136,6 +136,9 @@ function show_order_list() {
 
             if (lang_cookie == 't') {
                 switch (v.ptitle) {
+                    case '新能源':
+                        title = '新能源'
+                        break
                     case '美国指数':
                         title = '美国指数'
                         break
@@ -205,6 +208,9 @@ function show_order_list() {
                 }
             }else if (lang_cookie == 's') {
                 switch (v.ptitle) {
+                    case '新能源':
+                        title = '新能源'
+                        break
                     case '美国指数':
                         title = '美国指数'
                         break
@@ -274,6 +280,9 @@ function show_order_list() {
                 }
             } else if (lang_cookie == 'e') {
                 switch (v.ptitle) {
+                    case '新能源':
+                        title = 'NE'
+                        break
                     case '美国指数':
                         title = 'IXIC'
                         break
@@ -343,6 +352,9 @@ function show_order_list() {
                 }
             }else if (lang_cookie == 'pt') {
                 switch (v.ptitle) {
+                    case '新能源':
+                        title = 'NE'
+                        break
                     case '美国指数':
                         title = 'IXIC'
                         break
@@ -550,6 +562,9 @@ function setolist(types) {
             let title = ''
             if (lang_cookie == 't') {
                 switch (v.ptitle) {
+                    case '新能源':
+                        title = '新能源'
+                        break
                     case '美国指数':
                         title = '美国指数'
                         break
@@ -619,6 +634,9 @@ function setolist(types) {
                 }
             }else if (lang_cookie == 's') {
                 switch (v.ptitle) {
+                    case '新能源':
+                        title = '新能源'
+                        break
                     case '美国指数':
                         title = '美国指数'
                         break
@@ -689,6 +707,9 @@ function setolist(types) {
                 }
             } else if (lang_cookie == 'e') {
                 switch (v.ptitle) {
+                    case '新能源':
+                        title = 'NE'
+                        break
                     case '美国指数':
                         title = 'IXIC'
                         break
@@ -758,6 +779,9 @@ function setolist(types) {
                 }
             }else if (lang_cookie == 'pt') {
                 switch (v.ptitle) {
+                    case '新能源':
+                        title = 'NE'
+                        break
                     case '美国指数':
                         title = 'IXIC'
                         break
@@ -899,6 +923,9 @@ function get_hold_order(oid) {
         let title = ''
         if (lang_cookie == 't') {
             switch (v.ptitle) {
+                    case '新能源':
+                        title = '新能源'
+                        break
                 case '美元/欧元':
                     title = '美元/歐元'
                     break
@@ -965,6 +992,9 @@ function get_hold_order(oid) {
             }
         }else if (lang_cookie == 's') {
             switch (v.ptitle) {
+                    case '新能源':
+                        title = '新能源'
+                        break
                 case '美元/欧元':
                     title = '美元/欧元'
                     break
@@ -1031,6 +1061,9 @@ function get_hold_order(oid) {
             }
         } else if (lang_cookie == 'e') {
             switch (v.ptitle) {
+                    case '新能源':
+                        title = 'NE'
+                        break
                 case '美元/欧元':
                     title = 'USD/EUR'
                     break
@@ -1097,6 +1130,9 @@ function get_hold_order(oid) {
             }
         }  else if (lang_cookie == 'pt') {
             switch (v.ptitle) {
+                    case '新能源':
+                        title = 'NE'
+                        break
                 case '美元/欧元':
                     title = 'USD/EUR'
                     break

@@ -82,6 +82,7 @@ function mb_str_split($str){
 
 
 $EnLib = [
+    '新能源' => 'NE',
     '美国指数' => 'IXIC',
     '订单明细' => 'order',
     '订单' => 'order',
@@ -1080,6 +1081,7 @@ Leopard: If three numbers are the same in the current period, it is a leopard</p
 ];
 
 $PtLib = [
+    '新能源' => 'NE',
     '请正确填写密码' => 'Por favor, preencha a senha corretamente',
     '两次密码不一致确认' => 'confirme se as duas senhas são inconsistentes',
     '等待支付' => 'aguarde o pagamento',
@@ -1725,6 +1727,7 @@ $PtLib = [
 ];
 
 $PtLib = [
+    '新能源' => 'NE',
     '请正确填写密码' => 'Por favor, preencha a senha corretamente',
     '两次密码不一致确认' => 'Confirme se as duas senhas são inconsistentes',
     '等待支付' => 'aguarde o pagamento',
@@ -2370,6 +2373,7 @@ $PtLib = [
 ];
 
 $ViLib = [
+    '新能源' => 'NE',
 	'请确认新密码' => 'Vui lòng xác nhận mật khẩu mới',
     '等待支付' => 'Đợi thanh toán',
     '在线充值' => 'Nạp online',
@@ -3118,6 +3122,7 @@ Bão:Khi xuất hiện ba số giống nhau thì là Bão </p>
 
 //添加英文翻譯
 $newEnLib = [
+    '新能源' => 'NE',
     '选择充值方式' => 'Choose recharge method',
     '充值现金' => 'Recharge cash',
     '充值数字货币' => 'Recharge digital currency',
@@ -3134,6 +3139,7 @@ $newEnLib = [
 $EnLib = array_merge($EnLib, $newEnLib);
 //添加葡萄牙翻譯
 $newPtLib = [
+    '新能源' => 'NE',
     '选择充值方式' => 'Escolha o método de recarga',
     '充值现金' => 'Recarregue dinheiro',
     '充值数字货币' => 'Recarregue a moeda digital',

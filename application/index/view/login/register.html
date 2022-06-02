@@ -18,9 +18,16 @@
 <ion-nav-view class="view-container" nav-view-transition="ios" nav-view-direction="none" nav-swipe="">
     <ion-view hide-nav-bar="true" class="signin-view pane" state="signin" nav-view="active"
               style="opacity: 1; transform: translate3d(0%, 0px, 0px);">
+            <div class="sign_up_container">
+        <div class="signin-bg"></div>
+            <div class="signin-header">
+                <div class="system-logo" ng-show="show_system_logo">
+                </div>
+            </div>
 
         <form method="post" id="formid">
             <div class="sign_up">
+            <div class="title">欢迎光临杭州德淮</div>
                 <div class="sign_up_content">
 
                     <ul class="sign_up_list">
@@ -44,7 +51,7 @@
                                 ng-invalid-required" style="">
                             </label>
                             <label class="item item-input">
-                                <i class="input-icon ion-locked"></i>
+                                <i class="input-icon ion-locked2"></i>
                                 <input style="width: 1.4rem" type="password" placeholder="<?php echo _lang("确认密码")?>"
                                 name="upwd2" required="" class="ng-pristine ng-untouched ng-empty ng-invalid
                                 ng-invalid-required" style="">
@@ -97,13 +104,17 @@
                         <!--              </li>-->
                     </ul>
                     <button class="newbutton sign_up_btn" onclick="return checkform(this.form);">
-                        <?php echo _lang("注册登陆")?>
+                        <?php echo _lang("注册")?>
                     </button>
                 </div>
         </form>
         <div class="signin-footer">
-            <a href="{:url('login/login')}"><?php echo _lang("已有账戶，登陆")?></a>
+                已有账号？
+            <a href="{:url('login/login')}">
+                <?php echo _lang("点击登陆")?>
+            </a>
         </div>
+            </div>
         </div>
         <div class="spinner-view hide">
             <div class="spinner">

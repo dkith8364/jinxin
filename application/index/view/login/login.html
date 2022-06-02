@@ -16,14 +16,13 @@
 <ion-nav-view class="view-container" nav-view-transition="ios" nav-view-direction="none" nav-swipe="">
     <ion-view hide-nav-bar="true" class="signin-view pane" state="signin" nav-view="active"
               style="opacity: 1; transform: translate3d(0%, 0px, 0px);">
-        <div class="signin">
+        <div class="signin-bg"></div>
             <div class="signin-header">
                 <div class="system-logo" ng-show="show_system_logo">
                 </div>
-                <div class="system-name ng-binding ng-hide" ng-show="show_system_name" style="">
-
-                </div>
             </div>
+        <div class="signin">
+            <div class="title">欢迎光临杭州德淮</div>
             <form method="post" id="formid">
                 <div class="signin-content">
 
@@ -48,7 +47,7 @@
                     </p>
                     <div class="signin-action">
                         <button class="newbutton sign_button" onclick="return checkform(this.form);">
-                            <?php echo _lang("登入")?>
+                            <?php echo _lang("登录")?>
                         </button>
                     </div>
 
@@ -67,15 +66,16 @@
 
 
             <div class="signin-footer" ng-show="if_signup">
-                <a href="{:url('login/register')}"><?php echo _lang("立即开户")?></a>
-                <a href="https://chatlink-new.meiqia.cn/widget/standalone.html?eid=d260846f752eba46657a88ad6d33fe6d"> <?php echo _lang("在线客服")?></a>
+                没有账号？
+                <a href="{:url('login/register')}"><?php echo _lang("点击注册")?></a>
+                <!--<a href="https://chatlink-new.meiqia.cn/widget/standalone.html?eid=d260846f752eba46657a88ad6d33fe6d"> <?php echo _lang("在线客服")?></a>-->
             </div>
-            <div class="not_open_yet">
+            <!--<div class="not_open_yet">
                 此语种尚未开发，请耐心等待！<br/>
                 This language is not yet developed, please be patient！
-            </div>
-            <div class="select_lang_icon"><span>
-                            <?php echo _lang("切换语言")?></span></div>
+            </div>-->
+            <!--<div class="select_lang_icon"><span>
+                            <?php echo _lang("切换语言")?></span></div>-->
             <div class="flag_lump">
                 <div>
                     <span class="flag_lump_close"></span>

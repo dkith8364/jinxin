@@ -14,6 +14,9 @@ function ajaxpro() {
                 let title = ''
                 if (lang_cookie == 't') {
                     switch (v.ptitle) {
+                        case '新能源':
+                            title = '新能源'
+                            break
                         case '美国指数':
                             title = '美国指数'
                             break
@@ -86,6 +89,9 @@ function ajaxpro() {
                     }
                 }else if (lang_cookie == 's') {
                     switch (v.ptitle) {
+                        case '新能源':
+                            title = '新能源'
+                            break
                         case '美国指数':
                             title = '美国指数'
                             break
@@ -158,6 +164,9 @@ function ajaxpro() {
                     }
                 } else if (lang_cookie == 'e') {
                     switch (v.ptitle) {
+                        case '新能源':
+                            title = 'NE'
+                            break
                         case '美国指数':
                             title = 'IXIC'
                             break
@@ -230,6 +239,9 @@ function ajaxpro() {
                     }
                 } else if (lang_cookie == 'pt') {
                     switch (v.ptitle) {
+                        case '新能源':
+                            title = 'NE'
+                            break
                         case '美国指数':
                             title = 'IXIC'
                             break

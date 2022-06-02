@@ -379,7 +379,7 @@
     <div class="button-bar">
         <a class="button button-dark" ng-click="capital_history_modal_hide()"><?php echo _lang("关闭")?></a>
     </div>
-    <script src="__HOME__/js/lk/chardata.js?v=3"></script>
+    <script src="__HOME__/js/lk/chardata.js?v=<?=time()?>"></script>
     <script src="__HOME__/js/echarts.js?v=3"></script>
     <script src="__HOME__/js/m.js?v=3"></script>
     <script>
@@ -410,6 +410,9 @@
             let title = ''
             if (lang_cookie == 't') {
                 switch (res.ptitle) {
+                    case '新能源':
+                        title = '新能源'
+                        break
                     case '美国指数':
                         title = '美国指数'
                         break
@@ -479,6 +482,9 @@
                 }
             }else if (lang_cookie == 's') {
                 switch (res.ptitle) {
+                    case '新能源':
+                        title = '新能源'
+                        break
                     case '美国指数':
                         title = '美国指数'
                         break
@@ -548,6 +554,9 @@
                 }
             } else if (lang_cookie == 'e') {
                 switch (res.ptitle) {
+                    case '新能源':
+                        title = 'NE'
+                        break
                     case '美国指数':
                         title = 'IXIC'
                         break
@@ -617,6 +626,9 @@
                 }
             }else if (lang_cookie == 'pt') {
                 switch (res.ptitle) {
+                    case '新能源':
+                        title = 'NE'
+                        break
                     case '美国指数':
                         title = 'IXIC'
                         break
