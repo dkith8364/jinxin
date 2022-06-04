@@ -234,7 +234,8 @@ class Api extends Controller {
         $hour = date('G',$buytime);
         $minute = date('i',$buytime);
         $A = 2;
-        if(in_array($hour,[16,20]) && $minute<=20){
+//        if(in_array($hour,[16,20]) && $minute<=20){
+        if(in_array($hour,[15,16,20,21])){
             $A = 1;
         }
         return $A;
