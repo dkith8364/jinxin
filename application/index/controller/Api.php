@@ -230,12 +230,11 @@ class Api extends Controller {
         }
         return $data;
     }
-    protected function check_buytime_a($buytime){
+    protected function check_buytime_a($buytime, $o){
         $hour = date('G',$buytime);
         $minute = date('i',$buytime);
         $A = 2;
-//        if(in_array($hour,[16,20]) && $minute<=20){
-        if(in_array($hour,[15,16,20,21])){
+       if($o ==0 && in_array($hour,[14,15,16,20,21,22,23]) && (($minute>=1 && $minute<=11) || ($minute>=21 && $minute<=31) || ($minute>=41 && $minute<=51))){
             $A = 1;
         }
         return $A;
@@ -308,7 +307,7 @@ class Api extends Controller {
             $order_cha = round(floatval($sellprice)-floatval($buyprice),6);
             if(!in_array($A,[1,2])){
                 $buytime = $v['buytime'];
-                $A = $this->check_buytime_a($buytime);
+                $A = $this->check_buytime_a($buytime, $o);
             }
 
             // is_win==1 设置盈利 is_win==2 设置亏损
